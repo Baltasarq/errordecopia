@@ -1,0 +1,339 @@
+! generado por INFORMATE@txtMap, v0.2/ v0.41 20070517
+! Mon Aug 20 20:49:48 2007
+
+! ================= LOCALIDADES ===============
+
+Desierto AREA_CAPSULA "Área de aterrizaje de la cápsula"
+with
+    description
+    [;
+        if ( popa_obj notin Limbo ) {
+            pasar_a_Brujula();
+        }
+        print "^El área donde la cápsula aterrizó se encuentra absolutamente erosionado y quemado.
+          Un surco en la arena se extiende desde un par de cientos de metros hasta la cápsula misma.
+          El resto del paisaje es desolador: arena y piedras se extienden hasta el infinito, con la interrupción
+          ocasional de algun grupo de dunas o montañas, en lontananza.^";
+        
+        if ( deslizadorFalso in self ) {
+            print "El deslizador de la cápsula está preparado.";
+        }
+        "^";
+    ],
+    n_to [;
+        <<GoIn capsulaFalsa>>;
+    ],
+    in_to [;
+        <<GoIn capsulaFalsa>>;
+    ],
+;
+
+ObjetoEstatico capsulaFalsa "cápsula de emergencia" AREA_CAPSULA
+with
+    name 'capsula' 'nave' 'espacial' 'emergencia',
+    description
+        "No es necesario ser ingeniero para darse cuenta de que el daño es inmenso. Estás varado en este planeta,
+         sin duda alguna.",
+    before [;
+        GoIn, Enter:
+            print "La puerta exterior se cierra a tu paso, mientras la interior
+                       permanece también cerrada durante unos segundos.^^";
+            if ( player.capsula )
+                    PlayerTo( CAMARA_DE_DESCOMPRESION, 2 );
+            else    PlayerTo( CAMARA_DESCOM_ADRIATICO, 2 );
+            rtrue;
+    ],
+has female enterable;
+
+ObjetoEstatico deslizadorFalso "deslizador" Limbo
+with
+    name 'deslizador',
+    description [;
+        ViewImageRight( grfDeslizador, 200 );
+        "Un deslizador estándar, para grandes distancias. Un potente motor de hélice empuja al
+         bote en la dirección deseada.";
+    ],
+    before [;
+        GoIn, Enter:
+            PlayerTo( deslizador, 2 );
+            rtrue;
+    ]
+has enterable;
+
+ObjetoEstatico montanasFalsas "montanas"
+with
+    found_in [;
+        if ( location == DESLIZADOR
+          || location ofclass Desierto )
+        {
+            rtrue;
+        }
+        rfalse;
+    ],
+    description [;
+        if ( ( turns % 2 ) == 0 )
+                ViewImageLeft( grfDunas2, 400 );
+        else    ViewImageLeft( grfDesiertoMarciano, 400 );
+        
+        "Un desierto en el que se ven dunas, y, ocasionalmente, montañas, esparcidas por un manto de oro arenoso, moteado por alguna roca.";
+    ],
+    name_f 'sierra' 'cadena' 'montana' 'duna' 'colina' 'arena' 'tierra' 'roca' 'piedra',
+    name_fp 'montanas' 'dunas' 'colinas' 'arenas' 'rocas' 'piedras',
+    name_m 'monticulo' 'desierto',
+    name_mp 'monticulos',
+    gender G_FEMENINO + G_PLURAL,
+;
+
+ObjetoEstatico obj_surco "surco" AREA_CAPSULA
+with
+    name_m 'surco',
+    name_f 'zanja',
+    gender G_MASCULINO,
+    description "Excavado en la arena por la panza de la cápsula, se extiende por unos cientos de metros."
+;
+
+NaveEspacial CAMAROTE_DE_BABOR "Camarote de babor"
+with
+    description "^Una cama plegada contra el casco de la nave, y un panel para efectos personales son lo poco que ofrece este espacio.",
+    e_to PASILLO_DE_SERVICIO,
+    out_to PASILLO_DE_SERVICIO,
+;
+
+NaveEspacial CAMAROTE_DE_ESTRIBOR "Camarote de estribor"
+with
+    description "^Una cama plegada contra el casco de la nave, y un cajón para efectos personales son lo poco que ofrece este espacio.",
+    w_to PASILLO_DE_SERVICIO,
+    out_to PASILLO_DE_SERVICIO
+;
+
+NaveEspacial CAMARA_DE_DESCOMPRESION "Cámara de descompresión"
+with
+    description
+        [;
+            if ( popa_obj notin compass ) {
+                pasar_a_ConexionesNauticas();
+            }
+            
+            "^La última estancia a popa de la nave, la cámara se cierra mediante la puerta exterior estanca,
+              para que sea posible realizar viajes al exterior sin perder la atmósfera de la nave.^
+              Un cajón se ha desplazado hasta quedar apoyado en el casco de la nave.";
+        ],
+    n_to ZONA_DE_MANTENIMIENTO,
+;
+
+ObjetoEstatico OBJ_PUERTA_TRIRRENO "puerta de la cámara de descompresión" CAMARA_DE_DESCOMPRESION
+with
+    name 'puerta' 'exterior' 'estanca',
+    description [;
+        print "La puerta que separa el mundo exterior de la cápsula.^";
+        <Examine OBJ_PANEL_PUERTA_TRIRRENO>;
+        <<Examine OBJ_BOTONPUERTA>>;
+    ],
+has female;
+
+ObjetoEstatico OBJ_CAJA_TRANSPORTE "cajón de transporte" 
+with
+    found_in [;
+        if ( location == CAMARA_DE_DESCOMPRESION or CAMARA_DESCOM_ADRIATICO ) {
+            rtrue;
+        }
+        rfalse;
+    ],
+    fueMovido false,
+    name_f 'caja',
+    name_m 'cajon',
+    gender G_MASCULINO,
+    description "Un cajón, pegado a la pared, que se debe haber movido hasta aquí durante el aterrizaje.",
+    before [;
+        Open:
+            "Es un cajón de transporte, con mercancía que no te interesa ahora.";
+        Push, Pull, Take:
+            if ( ~~( self.fueMovido ) ) {
+                self.fueMovido = true;
+                
+                print "Mueves el cajón, con esfuerzo, hasta vislumbrar en el casco de la nave la forma
+                       rectangular de un panel. Sospechando que puede ser importante, terminas de apartar
+                       el cajón hasta dejarlo al descubierto.^";
+                
+                if ( player.capsula )
+                        move OBJ_PANEL_PUERTA_TRIRRENO to location;
+                else    move OBJ_PANEL_PUERTA_ADRIATICO to location;
+                
+                rtrue;
+            }
+            else "Mueves el cajón unos centímetros.";
+    ],
+;
+
+ObjetoEstatico OBJ_PANEL_PUERTA_TRIRRENO "panel de la puerta" Limbo
+with
+    name 'panel' 'mantenimiento' 'control' 'tornillo',
+    name_mp 'tornillos',
+    gender G_MASCULINO,
+    description [;
+        if ( self in Limbo ) return;
+        
+        print "Un panel de mantenimiento de la puerta se sitúa debajo y a la derecha de la puerta estanca.^";
+        if ( self has open )
+                "Cuelga de sus soportes, paralelo al suelo.";
+        else    "Está cerrado mediante tornillos.";
+    ],
+    before [;
+        Turn:
+            if ( self has open )
+                    <<Close self>>;
+            else    <<Open self>>;    
+        Open:
+            if ( OBJ_DESTORNILLADOR in player
+              || OBJ_DESTORNILLADOR in CAMARA_DE_DESCOMPRESION )
+            {
+                print "Destornillas con cuidado el panel, de manera que queda colgando, paralelo al suelo.^";
+                rfalse;
+            }
+            else "No puedes hacerlo con las manos desnudas.";
+        Close:
+            if ( OBJ_DESTORNILLADOR in player
+              || OBJ_DESTORNILLADOR in CAMARA_DE_DESCOMPRESION )
+            {
+
+                give self ~open;
+                "Atornillas de nuevo el panel, dejándolo cerrado.";
+            }   
+            else "No puedes hacerlo con las manos desnudas.";
+    ],     
+has openable container;
+
+Objeto OBJ_CELULA_GASTADA "célula de energía gastada" OBJ_PANEL_PUERTA_TRIRRENO
+with
+    name 'celula' 'energia' 'gastada' 'vieja',
+    description "Una célula de energía agotada. Es obvio que la nave ha intentado
+                 reunir toda la energía posible para controlar la entrada en la atmósfera ...",
+has female;
+
+ObjetoEstatico obj_botonPuerta "botón de apertura" CAMARA_DE_DESCOMPRESION
+with
+    name 'boton' 'apertura',
+    description "Un botón que permite la apertura de la puerta se encuentra a la derecha de la misma.",
+    before [;
+        Push:
+            if ( OBJ_CELULA in OBJ_PANEL_PUERTA_TRIRRENO ) {
+                print "La puerta de la cámara se cierra, para el intercambio de presiones.^
+                       La puerta exterior se abre, permitiéndote salir al exterior ...^^";
+                PlayerTo( AREA_CAPSULA, 2 );
+                StopTimer( consolaCapsula );
+                rtrue;
+            }
+            else "Pulsas el botón, pero no sucede nada.";
+    ],
+;
+
+NaveEspacial PASILLO_DE_SERVICIO "Pasillo de servicio"
+with
+    description "^El reducido pasillo permite el acceso, a babor y estribor, de sendos camarotes.",
+    n_to PUESTO_DE_COMANDO,
+    s_to ZONA_DE_MANTENIMIENTO,
+    e_to CAMAROTE_DE_ESTRIBOR,
+    w_to CAMAROTE_DE_BABOR,
+
+;
+
+NaveEspacial PUESTO_DE_COMANDO "Puesto de Comando"
+with
+    description [;
+        ViewImageLeft( grfComandoCapsula, 400 );
+        "^La cápsula Trirreno tiene un reducido puesto de mando, de manera que la pequeña consola ante
+          ti maneja todas las posibilidades de la nave, que son ciertamente reducidas.
+          El pequeño ventanal te permite una cierta visión de lo que tienes delante, 
+          si bien no se espera que la nave haga ninguna navegación que lo precise, al ser una cápsula de salvamento.";
+    ],
+    s_to PASILLO_DE_SERVICIO,
+;
+
+ObjetoEstatico OBJ_SILLON_COMANDO "sillón" PUESTO_DE_COMANDO
+with
+    name 'sillon',
+    description "El conocido y seguro sillón de mando.",
+has scenery supporter enterable;
+
+ObjetoEstatico OBJ_CONTROLES "controles"
+with
+    found_in [;
+        if ( location == PUESTO_DE_COMANDO or PUESTO_DE_COMANDO_ADRIATICO ) {
+            rtrue;
+        }
+        rfalse;
+    ],
+    gender G_MASCULINO + G_PLURAL,
+    name_m 'control' 'mando' 'ventanal',
+    name_mp 'controles' 'mandos',
+    description "Hay varios controles en la cabina, bajo el ventanal, si bien casi todos se utilizan durante el pilotaje,
+                 por lo que ahora mismo lo más útil es la consola.",
+    before [;
+        Search:
+            "A través del ventanal se puede observar un planeta más bien polvoriento.";
+    ],
+has pluralname;
+
+NaveEspacial ZONA_DE_MANTENIMIENTO "Zona de mantenimiento"
+with
+    description "^Un espacio bastante amplio funciona como zona de carga, alojando también el panel de herramientas, y el acceso a la maquinaria de la nave, tanto de los sistemas vitales de la nave, como del motor.",
+    n_to PASILLO_DE_SERVICIO,
+    s_to CAMARA_DE_DESCOMPRESION,
+
+;
+
+! ================= OBJETOS ===============
+
+ObjetoEstatico OBJ_CIRCUITO_NEUMATICO "circuito neumático" ZONA_DE_MANTENIMIENTO
+with
+    name 'CIRCUITO',
+    description "El circuito neumático mantiene la presión del aire comprimido de las puertas, de manera que éstas se abran y se cierren."
+has   ;
+
+ObjetoEstatico OBJ_MAQUINARIA_TRIRRENO "maquinaria" ZONA_DE_MANTENIMIENTO
+with
+    name 'MAQUINARIA',
+    description "Puedes ver el motor antigravitacional, el sistema de mantenimiento vital y el circuito neumático."
+has female  ;
+
+ObjetoEstatico OBJ_MOTOR_ANTIGRAVITACIONAL "motor antigravitacional" ZONA_DE_MANTENIMIENTO
+with
+    name 'MOTOR',
+    description "Se trata del motor que impide que la nave caiga dentro de la atmósfera del planeta, como una piedra."
+has   ;
+
+ObjetoEstatico OBJ_PANEL_DE_HERRAMIENTAS "panel de herramientas" ZONA_DE_MANTENIMIENTO
+with
+    name 'PANEL' 'armario' 'herramientas',
+    description "Se trata de un panel donde se alojan las herramientas necesarias para una reparación de emergencia."
+has container openable ;
+
+ObjetoEstatico OBJ_SIST_DE_MANT_VITAL_TRIRRENO "sistema de mantenimiento vital" ZONA_DE_MANTENIMIENTO
+with
+    name 'SISTEMA',
+    description "El sistema de mantenimiento se encarga de mantener el oxígeno de la nave en buen estado, así como de la calefacción y otros factores."
+has female  ;
+
+Objeto OBJ_DESTORNILLADOR "destornillador" Limbo
+with
+    name 'destornillador',
+    description "No hay nada de especial.",
+;
+
+Objeto OBJ_CELULA "célula de energía de repuesto" OBJ_PANEL_DE_HERRAMIENTAS
+with
+    name 'celula' 'energía' 'nueva' 'repuesto',
+    description "Célula de energía. Indispensables para que una nave funcione correctamente.",
+    before [;
+        PutOn:
+            if ( second == OBJ_PANEL_PUERTA_TRIRRENO ) {
+                if ( OBJ_CELULA_GASTADA in OBJ_PANEL_PUERTA_TRIRRENO ) {
+                    "Primero deberías retirar la célula gastada.";
+                }
+                else {
+                    move self to OBJ_PANEL_PUERTA_TRIRRENO;
+                    "Introduces la célula en el panel.";
+                }
+            }
+    ],
+has female;

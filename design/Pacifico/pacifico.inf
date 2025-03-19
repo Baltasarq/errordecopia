@@ -1,0 +1,217 @@
+! generado por INFORMATE@txtMap, v0.2/ v0.41 20070517
+! Mon Aug 20 20:50:07 2007
+
+
+
+
+Constant ADMITIR_COMANDO_SALIDAS;
+
+Include "EParser";
+Include "Acciones";
+Include "Gramatica";
+
+object limbo "Limbo"
+	with descripcion "limbo"
+;
+
+class Localidad
+has luz;
+
+
+
+class Objeto;
+
+class ObjetoEstatico
+class Objeto
+has escenario;
+
+
+[ inicializar;
+	localizacion = PUENTE_DE_MANDO;
+];
+
+! ================= LOCALIDADES ===============
+
+
+Localidad ALMACEN "Almacén"
+with
+	descripcion "^El almacén contiene algunos elementos útiles para el gobierno y mantenimiento de la nave, como herramientas y comida.",
+	al_s PASILLO_DE_SERVICIO_DEL_NIVEL_0,
+
+;
+
+Localidad ASCENSOR "Ascensor"
+with
+	descripcion "^El ascensor es un tubo que recorre, en vertical, los tres niveles de la nave. La zona de residencia y control, en la que te encuentras, no es tan grande, recuerdas, comparada con la zona de carga, que es totalmente independiente.",
+	al_n SALA_DE_COMUNICACIONES,
+
+;
+
+Localidad COCINA "Cocina"
+with
+	descripcion "^La cocina, con su principal componente: la máquina rehidratadora.",
+	al_o PASILLO_DE_SERVICIO_DEL_NIVEL_0,
+
+;
+
+Localidad COMANDO_DEL_NAVEGANTE "Comando del Navegante"
+with
+	descripcion "^El extremo de babor del puente de mando, con el sillón de comando y la consola del piloto. Los ventanales permiten la vista de la proa y del costado de babor de la nave.",
+	al_e PUENTE_DE_MANDO,
+
+;
+
+Localidad COMANDO_DEL_PILOTO "Comando del Piloto"
+with
+	descripcion "^El extremo de estribor del puente de mando, con el sillón de comando y la consola del piloto. Los ventanales permiten la vista de la proa y del costado de estribor de la nave.",
+	al_o PUENTE_DE_MANDO,
+
+;
+
+Localidad CAMARA_DE_ACCESO_A_CAPSULAS "Cámara de acceso a cápsulas"
+with
+	descripcion "^Una estrecha cámara con varias vainas, en las que se encuentran algunos trajes espaciales, da paso a dos salidas: una a estribor, y otra a babor.",
+	al_s PASILLO_DE_SERVICIO_NIVEL_1,
+	al_e CAPSULA_TRIRRENO,
+	al_o CAPSULA_ADRIATICO,
+
+;
+
+Localidad CAPSULA_ADRIATICO "Cápsula Adriático"
+with
+	descripcion "^El pequeño centro de mando acristalado de la cápsula es pequeño, como el resto de la misma. Los mandos se sitúan delante de tí, mientras a tu espalda se sitúa la escotilla de conexión con la nave.",
+	al_e CAMARA_DE_ACCESO_A_CAPSULAS,
+
+;
+
+Localidad CAPSULA_TRIRRENO "Cápsula Trirreno"
+with
+	descripcion "^El pequeño centro de mando acristalado de la cápsula es pequeño, como el resto de la misma. Los mandos se sitúan delante de tí, mientras a tu espalda se sitúa la escotilla de conexión con la nave.",
+	al_o CAMARA_DE_ACCESO_A_CAPSULAS,
+
+;
+
+Localidad PASILLO_DE_SERVICIO_DEL_NIVEL_0 "Pasillo de Servicio del Nivel 0"
+with
+	descripcion "^El pasillo de servicio es un largo y estrecho tubo, bastante más estrecho que los de los niveles superiores, que corre de proa a popa.",
+	al_n ALMACEN,
+	al_e COCINA,
+	al_o SALA_DE_DESCANSO,
+
+;
+
+Localidad PASILLO_DE_SERVICIO_NIVEL_1 "Pasillo de servicio nivel 1"
+with
+	descripcion "^El pasillo de servicio es un largo tubo atravesado por todo tipo de conducciones, que corre de proa a popa. Una trampilla permite el acceso a un túnel de mantenimiento.",
+	al_n CAMARA_DE_ACCESO_A_CAPSULAS,
+	abajo TUNEL_DE_MANTENIMIENTO,
+
+;
+
+Localidad PUENTE_DE_MANDO "Puente de Mando"
+with
+	descripcion "^El centro de mando de la Pacífico se extiende a estribor y babor desde este punto, la consola principal de la nave. La consola, que abarca la práctica totalidad de los controles visibles, dispone de un teclado y una pantalla. Un poco más abajo de la altura aproximada de los ojos, comienzan los ventanales que permiten una visión amplia de la panza del carguero (la parte despresurizada que contiene la carga) y el vasto espacio por delante del mismo. El sillón del comandante se encuentra justo delante de la consola.",
+	al_s SALA_DE_COMUNICACIONES,
+	al_e COMANDO_DEL_PILOTO,
+	al_o COMANDO_DEL_NAVEGANTE,
+
+;
+
+Localidad SALA_DE_MAQUINAS "Sala de Máquinas"
+with
+	descripcion "^La sala de máquinas da servicio a la maquinaria de los motores interestelares. Hacia proa se abre una pequeña escotilla.",
+	al_n TUNEL_DE_MANTENIMIENTO,
+
+;
+
+Localidad SALA_DE_COMUNICACIONES "Sala de comunicaciones"
+with
+	descripcion "^Innumerables interruptores, luces, y aparatos de procesamiento de señal llenan la sala, que se reparte a ambos lados del pasillo central. Al final del pasillo, se encuentra el ascensor que comunica el Puente de Mando con el resto de la nave.",
+	al_n PUENTE_DE_MANDO,
+	al_s ASCENSOR,
+
+;
+
+Localidad SALA_DE_DESCANSO "Sala de descanso"
+with
+	descripcion "^La sala de reuniones de la tripulación, con una mesa central y un banco corrido todo a su alrededor.",
+	al_o PASILLO_DE_SERVICIO_DEL_NIVEL_0,
+
+;
+
+Localidad TUNEL_DE_MANTENIMIENTO "Túnel de mantenimiento"
+with
+	descripcion "^Un angosto túnel blanco, que te obliga a mantenerte en cuclillas, se abre ante ti. Una salida se abre en la parte superior del extremo de proa, mientras hacia popa se aprecia otra escotilla.",
+	al_s SALA_DE_MAQUINAS,
+	arriba PASILLO_DE_SERVICIO_NIVEL_1,
+
+;
+
+! ================= OBJETOS ===============
+
+
+ObjetoEstatico OBJ_ABRAZADERAS "abrazaderas" PASILLO_DE_SERVICIO_NIVEL_1
+with
+	nombre 'ABRAZADERAS',
+	descripcion "Sujetan los tubos."
+has femenino nombreplural ;
+
+ObjetoEstatico OBJ_BANCO "banco" SALA_DE_DESCANSO
+with
+	nombre 'BANCO',
+	descripcion "Un banco acolchado en beige, que circunda completamente la mesa."
+has   ;
+
+ObjetoEstatico OBJ_COMIDA "comida" ALMACEN
+with
+	nombre 'COMIDA',
+	descripcion "Paquetes y paquetes de comida deshidratada. Nada útil hasta que se mete en la máquina de la cocina."
+has femenino  ;
+
+ObjetoEstatico OBJ_CONDUCCIONES "conducciones" PASILLO_DE_SERVICIO_NIVEL_1
+with
+	nombre 'CONDUCCIONES',
+	descripcion "Se trata de varios tubos y cables, que están fuertemente recogidos por abrazaderas."
+has  nombreplural ;
+
+Objeto OBJ_CELULA "célula" SALA_DE_MAQUINAS
+with
+	nombre 'CELULA',
+	descripcion "Una célula de energía."
+has femenino  ;
+
+ObjetoEstatico OBJ_HERRAMIENTAS "herramientas" ALMACEN
+with
+	nombre 'HERRAMIENTAS',
+	descripcion "Herramientas de todos los tamaños y colores. Menos mal que hay un mecánico entre la tripulación, nunca se te han dado bien los trabajos en los que debes mancharte de aceite las manos."
+has femenino nombreplural ;
+
+ObjetoEstatico OBJ_MAQUINA_REHIDRATADORA "maquina rehidratadora" COCINA
+with
+	nombre 'MAQUINA',
+	descripcion "Se trata de una máquina en la que se ubica un paquete con la comida deseada por un lado, y una pasta de colores variados aparece en un plato por el otro."
+has femenino  ;
+
+ObjetoEstatico OBJ_MAQUINARIA "maquinaria" SALA_DE_MAQUINAS
+with
+	nombre 'MAQUINARIA',
+	descripcion "Los motores están, básicamente, aquí, siendo accesibles todos los aparatos que intervienen en la transformación de la energía de las células en empuje para la mano. Siendo las células y pesadas cajas que deben introducirse en la maquinaria para alimentarla, la estampa se asemeja a aquellas locomotoras de leña del Siglo XX."
+has femenino  ;
+
+ObjetoEstatico OBJ_MESA "mesa" SALA_DE_DESCANSO
+with
+	nombre 'MESA',
+	descripcion "Se trata de una mesa circular, de inmaculado color blanco."
+has femenino  ;
+
+ObjetoEstatico OBJ_MOTORES "motores" SALA_DE_MAQUINAS
+with
+	nombre 'MOTORES',
+	descripcion "En realidad, no son visibles desde aquí, tan solo la maquinaria que los gobierna."
+has  nombreplural ;
+
+ObjetoEstatico OBJ_TUBOS "tubos" PASILLO_DE_SERVICIO_NIVEL_1
+with
+	nombre 'TUBOS',
+	descripcion "Tubos de varios colores y anchos."
+has  nombreplural ;

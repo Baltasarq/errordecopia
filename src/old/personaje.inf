@@ -1,0 +1,113 @@
+! --------------------------------------------------------- Clase personaje -----------
+class Personaje
+private
+    estado 0,
+with
+    devEstado [;
+        return self.estado;
+    ],
+    notificacionNuevoDia [;
+        rtrue;
+    ],
+    pasaANombrePropio [s;
+        give self propio;
+        self.nombre_corto = s;
+    ],
+    sinCambioLinea true,
+    cabecera [ sinCambio;
+            if ( ~~sinCambio ) {
+                print "^";
+        }
+        
+        Negrita();
+        if ( self == jugador)
+                print (string) self.nombre_corto;
+        else print (_El) self;
+        Normal();
+        rtrue;
+    ],
+    cabeceraDice [;
+        self.cabecera();
+        print ": ~";
+    ], 
+    decir [s;
+        self.cabeceraDice();
+        Italica();
+        print (string) s;
+        Normal();
+        print "~";
+        esperarTecla();
+        print "^^";
+    ],
+    vida [;
+        besar: 
+                self.decir( "¡¿ Te has vuelto loco !? ... ¡déjame de una vez!" );
+                rtrue;
+        hablar:
+                self.conversacion();
+                rtrue;
+        responder, preguntar, orden: 
+                Negrita();
+                print "Para hablar, utiliza ~hablar con <personaje>~^";
+                Normal();
+                rtrue;
+    ],
+    antes [;
+        if ( self notin localizacion
+          && accion ~= ##hablar )
+        {
+            "Pero ... ¡si no está aquí!";
+        }
+        
+        return self.procedimiento_antes();
+    ],
+    procedimiento_antes [;
+            tocar: "Mejor no.";
+            probar: "Eso no tiene ningún sentido.";
+               ! verEstado:
+               !     self.cabecera();
+               !     print ": estado es '", self.estado, "'^";
+               !     rtrue;
+            buscarEn:
+                print "^Haces ademán de comenzar a registrar a ", (el) self, " pero ...";
+                self.decir( "¡Eh! ... ¡Las manos quietas!" );
+                rtrue;
+            vaciar:
+                "¿Será ~Jack the tipper~ uno de vuestros ascendientes?^";
+    ],
+    conversacion [;
+            self.cabecera();
+            print " no parece interesado.^";
+            
+            return;
+    ],
+    cambiarEstado [;
+    ],
+    daemon [;
+            self.cambiarEstado();
+    ],
+    prepararPersonajes [x;
+            objectloop ( x ofclass Personaje ) {
+                x.iniciar();
+            }
+            
+            rtrue;
+    ],
+    iniciar [;
+            self.estado = 0;
+            arrancarDaemon( self );
+            
+            rtrue;
+    ]
+has animado;
+
+ifdef DEBUG;
+    [ verestadosub;
+        "[DEBUG VerEstado] ha fallado.";
+    ];
+    
+    verb 'verestado'
+        * creature -> verestado
+    ;
+endif;
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<Mapa >
+
+<Locs >
+
+<Loc >
+<Nombre>Camarote de babor</Nombre>
+<Desc>
+Una cama plegada contra el casco de la nave, y un panel para efectos personales son lo poco que ofrece este espacio.</Desc>
+<ESTE>Pasillo de servicio</ESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Camarote de estribor</Nombre>
+<Desc>
+Una cama plegada contra el casco de la nave, y un cajón para efectos personales son lo poco que ofrece este espacio.</Desc>
+<OESTE>Pasillo de servicio</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Cámara de descompresión</Nombre>
+<Desc>
+La última estancia a popa de la nave, la cámara se cierra de manera estanca, para que sea posible realizar viajes al exterior sin perder la atmósfera de la nave.</Desc>
+<NORTE>Zona de mantenimiento</NORTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Pasillo de servicio</Nombre>
+<Desc>
+El reducido pasillo permite el acceso, a babor y estribor, de sendos camarotes.</Desc>
+<NORTE>Puesto de Comando</NORTE>
+<SUR>Zona de mantenimiento</SUR>
+<ESTE>Camarote de estribor</ESTE>
+<OESTE>Camarote de babor</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Puesto de Comando</Nombre>
+<Desc>
+La cápsula Adriático tiene un reducido puesto de mando, de manera que la pequeña consola ante ti maneja todas las posibilidades de la nave, que son ciertamente reducidas. El pequeño ventanal te permite una cierta visión de lo que tienes delante, si bien no se espera que la nave haga ninguna navegación que lo precise, al ser una çápsula de salvamento.</Desc>
+<SUR>Pasillo de servicio</SUR>
+</Loc>
+
+
+<Loc >
+<Nombre>Zona de mantenimiento</Nombre>
+<Desc>
+Un espacio bastante amplio funciona como zona de carga, alojando también el panel de herramientas, y el acceso a la maquinaria de la nave, tanto de los sistemas vitales de la nave, como del motor.</Desc>
+<NORTE>Pasillo de servicio</NORTE>
+<SUR>Cámara de descompresión</SUR>
+</Loc>
+
+</Locs>
+
+</Mapa>
+

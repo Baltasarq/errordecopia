@@ -1,0 +1,492 @@
+Character Rasatlab limbo
+
+with
+    capsula false,
+    short_name "Rasatlab",
+    name 'Rasatlab',
+    description
+        "Rasatlab, comandante mercante espacial. Un tipo bastante normal. Tu piel cetrina denuncia
+         tu origen hindú.",
+    react_after [;
+        if ( action == ##Go
+          && noun ~= d_obj
+          && noun ~= u_obj
+          && ( ( location ofclass BaseLoc )
+            || ( location ofclass NaveEspacial )
+             ) )
+        {
+            print "La puerta deslizante se abre y se cierra a tu paso.^";
+        }
+     ],
+     react_before [;
+        if ( self.compruebaSiHayLuz() ) {
+            rtrue;
+        }
+        Go, Look, Examine, Touch:
+            if ( location ofclass BaseSinLuz ) {
+                print "La linterna horada la oscuridad...^^";
+            }
+    ],
+    compruebaSiHayLuz [;
+        if ( ~~( OffersLight( location ) ) ) {
+            wait( "...^" );
+            print "Hay demasiada poca luz...^Avanzas dando traspiés...^
+                   tienes mucho miedo de tropezar y romper el traje.^^";
+            wait();
+            print "Decides retroceder hasta el un punto donde hubiera luz.^^";
+            PlayerTo( TUNEL_DE_SERVICIO, 2 );
+            rtrue;
+        }
+        rfalse;
+    ],
+;
+
+! No es exactamente un personaje, pero es parte de los habitantes de la nave
+Character consolaPacifico "la consola del sistema de ~Pacífico~" PUENTE_DE_MANDO
+private
+    estado 0
+with
+    short_name "consola",
+    maxOpciones 0,
+    compruebaOpciones [;
+        if ( self.status == 0 ) {
+            self.maxOpciones = 3;
+        }
+        else
+        self.maxOpciones = 0;
+
+        rtrue;
+    ],
+    initial "La consola del sistema de la nave se sitúa bajo el ventanal.",
+    name_f 'consola' 'pantalla',
+    name_m 'ordenador' 'sistema',
+    before [;
+        Tell:
+            self.explicaComo();
+            rtrue;
+        Answer, Ask:
+            return self.orders();
+        Push, Pull:
+            "Pues no sé para qué querría hacer eso.";
+        Take, Kiss:
+            "No tiene sentido.";
+        Touch:
+            "La consola funciona mediante órdenes vocales. Es un destello de modernidad de entre
+             la tecnología del carguero, con ya algunos años de envejecimiento encima.";
+    ],
+    orders [;
+       SetTo:
+           self.say( "Opción seleccionada." );
+
+           self.compruebaOpciones();
+
+           if ( noun < 1
+             || noun > self.maxOpciones )
+           {
+               self.say( "Opción no disponible." );
+           }
+
+           self.status = noun;
+
+           print "^La consola parpadea ligeramente y muestra nueva información.";
+           <<Examine self>>;
+       default:
+           self.explicaComo();
+           rtrue;
+    ],
+    explicaComo [;
+           self.say( "ERROR: Órden no entendida." );
+           s_underline();
+           print "^Indica las opciones como: ~consola, selecciona[r] [opción] X~.";
+           print "^Por ejemplo: ~consola, seleccionar opción 1~.^";
+           print "~consola, selecciona dos~.^^";
+           s_normal();
+    ],
+    description [;
+        print "La consola de la nave. En este momento, puedes ver en la pantalla:^^";
+
+        s_fixed();
+
+        if ( self.status == 0 ) {
+            print "^Consola de órdenes vocales. Nave mercante ~Pacífico~.";
+            print "^^Seleccione una opción:^^1. Mapa del nivel 0^2. Mapa del nivel 1^3. Informe de estado.";
+            self.compruebaOpciones();
+        }
+        else
+        if ( self.status == 1 ) {
+            viewImageRight( grfCargueroNivel0, 360 );
+            print "Una descripción del nivel 0: al salir del ascensor, hacia proa, se encuentra el pasillo de servicio,
+                   que permite el acceso a babor y a estribor, a la sala de descanso y la cocina, respectivamente. Siguiendo
+                   el pasillo hacia proa, se encuentra el almacén, de manera que al atravesarlo se llega a la
+                   sala de criogenia.";
+            self.status = 0;
+        }
+        else
+        if ( self.status == 2 ) {
+            viewImageRight( grfCargueroNivel1, 360 );
+            print "Una descripción del nivel 1: al salir del ascensor, hacia proa, se llega
+                   directamente al pasillo de servicio, y, atravesándolo, se alcanza la sala
+                   de trajes, que permite el acceso a las cápsula de salvamento.";
+            self.status = 0;
+        }
+        else
+        if ( self.status == 3 ) {
+            if ( OBJ_MISIL.fueImpactado() ) {
+                print "Despresurización del casco...^
+                       Casco impactado... imposible mantener integridad...^
+                       Motores dañados...^
+                       Células de energía comprometidas...^
+                       Todos los sistemas pierden energía...^
+                       Motor nuclear implosionará en pocos momentos...^
+                       Sistemas de mantenimiento vital criogénico... fallando.^
+                       Tripulantes... muertos.^^
+                       La ~Pacífico~ será destruída por la explosión... se aconseja el abandono de la nave
+                       en las cápsulas de escape del segundo nivel.^^";
+            }
+            else {
+                print "Todos los sistemas funcionando correctamente.^^Siguiendo directiva de tipo alfa hacia el objetivo.
+                       ^Todas las posibles órdenes operacionales y navigacionales han sido anuladas hasta la llegada a la
+                       órbita del planeta del que se recibió la llamada de auxilio.^";
+
+                print "La directiva alfa, de carácter de auxilio, no puede ser revocada.^";
+            }
+
+            self.status = 0;
+        }
+
+        s_normal();
+	print "^^";
+        rtrue;
+    ],
+has female;
+
+! No es exactamente un personaje, pero es parte de los habitantes de la cápsula
+Character consolaCapsula "la consola del sistema de la cápsula" PUENTE_DE_MANDO
+private
+    estado 0
+with
+    time_left 0,
+    time_out [;
+        print "^La consola emite un resplandor rojo... sabes lo que significa... se acabó el tiempo.
+                El oxígeno de la nave se acabó.^^";
+
+        if ( obj_traje notin player
+          || obj_traje hasnt worn )
+        {
+            mueresAsfixiado();
+        }
+        else {
+            deadflag = 1;
+            "^El oxígeno de la nave se ha terminado... tienes puesto el traje, pero sabes que sólo aguantarás
+              unas pocas horas más. El recuerdo de tu tripulación muerta, y la perspectiva de un nuevo fracaso te
+              amargan de tal manera que sólo tienes fuerzas para sentarte. Sentarte a esperar... lo inevitable.";
+        }
+    ],
+    found_in [;
+        if ( location == PUESTO_DE_COMANDO or PUESTO_DE_COMANDO_ADRIATICO )
+                rtrue;
+        else    rfalse;
+    ],
+    short_name "consola",
+    maxOpciones 0,
+    compruebaOpciones [;
+        if ( self.status == 0 ) {
+            self.maxOpciones = 5;
+        }
+        else
+        self.maxOpciones = 0;
+
+        rtrue;
+    ],
+    initial "La consola del sistema de la nave se sitúa bajo el ventanal.",
+    name_m 'ordenador' 'sistema',
+    name_f 'consola' 'pantalla',
+    before [;
+        Tell:
+            consolaPacifico.explicaComo();
+            rtrue;
+        Answer, Ask:
+            return self.orders();
+        Push, Pull:
+            "Pues no sé para qué querría hacer eso.";
+        Take, Kiss:
+            "No tiene sentido.";
+        Touch:
+            "La consola funciona mediante órdenes vocales. Es un destello de modernidad de entre
+             la tecnología del carguero, con ya algunos años de envejicimiento encima.";
+    ],
+    orders [;
+       SetTo:
+           self.say( "Opción seleccionada." );
+
+           self.compruebaOpciones();
+
+           if ( noun < 1
+             || noun > self.maxOpciones )
+           {
+               self.say( "Opción no disponible." );
+           }
+
+           self.status = noun;
+
+           print "^La consola parpadea ligeramente y muestra nueva información.";
+           <<Examine self>>;
+       default:
+           self.say( "ERROR: Órden no entendida." );
+           s_underline();
+           print "^Indica las opciones como: ~consola, selecciona[r] [opción] X~.";
+           print "^Por ejemplo: ~consola, seleccionar opción 1~.^";
+           print "~consola, selecciona dos~.^^";
+           s_normal();
+           rtrue;
+    ],
+    ponerNombre [;
+         if ( player.capsula )
+                 print "~Trirreno~";
+         else    print "~Adriático~";
+    ],
+    description [;
+        print "La consola de la nave. En este momento, puedes ver en la pantalla:^^";
+
+        s_fixed();
+
+        if ( self.status == 0 ) {
+            print "^Consola de órdenes vocales. Cápsula de emergencia ";
+            self.ponerNombre(); print "^";
+            print "^^Seleccione una opción:^^1. Informe de estado^2. Análisis del planeta^3. Análisis de señal
+                     de auxilio^4. Emitir deslizador.";
+            self.compruebaOpciones();
+        }
+        else
+        if ( self.status == 1 ) {
+            print "Motores ..................... FALLO^
+                   Sistemas de soporte vital ... FALLO^
+                   Sistemas de energía ......... FALLO^
+                   ^";
+            print "Oxígeno disponible: ", ( self.time_left * 2 ), "%^^";
+            self.status = 0;
+        }
+        else
+        if ( self.status == 2 ) {
+            print "Informe del planeta^^
+                   Atmósfera ............... irrespirable (exceso de nitrógeno)^
+                   Composición básica ...... rocas, arena y agua^
+                   Formas de vida .......... no detectadas^";
+            self.status = 0;
+        }
+        else
+        if ( self.status == 3 ) {
+            print "Señal de auxilio^^
+                   Localizada en algún punto indeterminado del norte de la posición actual.^
+                   Rango distancia 100-150 kilómetros^
+                   Rango de posición 50 kms Noreste a Noroeste^";
+            s_normal();
+            print "La consola dibuja ahora un diagrama del terreno conocido.^^";
+            print "Aparentemente, hay una cadena montañosa al sur que recorre el terreno a
+                   atravesar (inscrito en una zona llana, rodeada de otras montañas). Al principio,
+                   es necesario buscar un paso hacia el este, para después desplazarse aún más hacia el este
+                   a la vez que se avanza hacia el norte, dejando un barranco peligroso hacia el oeste.
+                   Llegando al límite de la cadena montañosa al norte, ya sólo es necesario avanzar hacia el
+                   oeste para llegar al origen de la llamada de auxilio.^^";
+            s_fixed();
+            self.status = 0;
+        }
+        else
+        if ( self.status == 4 ) {
+            if ( deslizadorFalso in Limbo ) {
+                    print "Emitiendo deslizador - transporte unipersonal^Deslizador a popa de la nave.^^";
+                    move deslizadorFalso to AREA_CAPSULA;
+            }
+            else    print "Deslizador a popa de la nave.^";
+
+            self.status = 0;
+        }
+
+        s_normal();
+        "^";
+    ],
+has female;
+
+
+Character robots "robots arácnidos" SALA_DEL_VENERABLE
+with
+    name_m 'robot' 'aracnido',
+    name_mp 'robots' 'aracnidos',
+    name_f 'arana',
+    name_fp 'aranas',
+    gender G_MASCULINO + G_PLURAL,
+    description "Son robots... con forma de araña... ¡erguidos sobre sus cuatro patas traseras!",
+    conversation [;
+        self.status++;
+
+        if ( ( self.status % 2 ) == 0 ) {
+            "Los robots te ignoran y miran hacia el venerable, poniendo toda la atención.";
+        }
+
+        if ( ( self.status % 3 ) == 0 ) {
+            "Te ignoran completamente";
+        }
+
+        if ( ( self.status % 5 ) == 0 ) {
+            "Parecen demasiado ocupados, atendiendo a lo que diga el venerable.";
+        }
+
+        "Ninguno de ellos te dirige la más mínima mirada. Sólo parece preocuparles que te
+         estés quieto y atiendas al venerable. También te vigilan, subrepticiamente.";
+    ]
+;
+
+PensamientoFugaz esaDesaparecida
+with
+    ideaFugaz
+        "La Agencia Espacial Europea desapareció hace siglos. Pero claro, ¿cómo iban ellos
+         a saberlo, aquí perdidos, dejados de la mano de Dios?."
+;
+
+PensamientoFugaz queBestias
+with
+    ideaFugaz
+        "...pues se lo han tomado al pie de la letra..."
+;
+
+PensamientoFugaz quePaso
+with
+    ideaFugaz
+        "¿Cuál era el plan de la ESA?¿Por qué la misión no se terminó...? Seguramente se canceló por algún motivo
+         y se pensó que los robots, símplemente, se desactivarían con el tiempo... o quizás no, y por eso
+         la nave sólo me despertó a mi."
+;
+
+PensamientoFugaz sonConstructores
+with
+    ideaFugaz
+        "Creo haber leído sobre ésto hace tiempo... uno de los proyectos de colonización de otros mundos, desde la Tierra,
+         era llevar máquinas constructoras que fuesen capaces de realizar el trabajo de terraformación y construcción de
+         bases humanas. ¿Pero si son simples máquinas hechas por el hombre, cómo es posible que piensen?"
+;
+
+PensamientoFugaz estanVivos
+with
+    ideaFugaz
+        "¿Cómo es posible que piensen? Tengo que echarle otro ojo a ese código."
+;
+
+Character venerable "venerable" SALA_DEL_VENERABLE
+with
+    seLoDijo [;
+        return ( self.status > 2 );
+    ],
+    article "al",
+    name 'robot' 'venerable' 'anciano',
+    description "Es uno de ellos, sólo que muchas de sus patas están estropeadas, apenas puede caminar o estar
+                 erguido, y, en general, presenta un estado bastante lamentable.",
+    conversation [;
+          if ( self.status == 0 ) {
+              self.status ++;
+
+              self.say( "Bienvenido, humano, a las instalaciones experimentales de la ESA en
+                           el planeta XRJ43. ¿Has venido para inspeccionar el trabajo?" );
+              print "Te encuentras realmente sorprendido...^";
+              player.say( "Yo, bueno, erhm, no." );
+
+              self.say( "¿Entonces, eres tú el mismísimo creador?" );
+              player.say( "¿El creador?, ¿de qué?" );
+
+              self.say( "De todas las cosas. De nosotros. De la Obra." );
+              print "El venerable estira uno de sus inútiles brazos hacia la placa que hay en la
+                     otra parte de la habitación.";
+              self.say( "¿Eres Strou Ban?" );
+              self.say( "Hemos protegido la obra. Todos los que han intentado acercarse han sido
+                           eliminados." );
+
+              print "La pregunta del venerable te deja helado. ¿Strou Ban?¿El creador?
+                     ¿Han destruido tu nave ya tus compañeros porque creían que íbamos a dañar
+                     aquella perdida y remota base suya, en un planeta dejado de la mano del
+                     Señor?.^";
+
+              player.say( "¿Y cómo sabéis qué naves destruir?" );
+              self.say( "Las naves que envíe Strou Ban serán de la ESA, claro." );
+              esaDesaparecida.piensa( player );
+              "^";
+          }
+          else
+          if ( self.status == 1 ) {
+              self.status++;
+
+              print "Intentas empezar a explicar tu parte de la historia, que te parece mucho
+                     más sencilla que todo lo que has escuchado hasta ahora, pero...^";
+
+              self.say( "Creador, ¿Cuál es el sentido de la vida?" );
+              self.say( "¿Por qué construímos?" );
+              robots.say(  "¿Cuál es tu plan, maestro?" );
+
+              print "Todo ésto empieza a superarte.^";
+              player.say( "Yo no soy ningún creador, ni conozco a Strou Ban." );
+              player.say( "Soy el comandante del carguero interplanetario ~Pacífico~, un navío
+                              mercante desarmado que vosotros habéis destruido, matando a nuestra
+                              tripulación." );
+
+              print "Captas algunos movimientos perdidos, una pata, una cabeza que gira... probablemente
+                     cuentan con algún mecanismo de radio que les permite comunicarse. Finalmente, has captado
+                     su atención.^";
+
+              self.say( "La Obra debía ser preservada, sin dar lugar a posibles intromisiones." );
+              "^";
+          }
+          else
+          if ( self.status == 2 ) {
+              self.status++;
+
+              print "Las preguntas se te agolpan en la mente, así que intentas ordenarlas y
+                     articularlas una a una.^";
+
+              player.say( "¿Cómo es posible que estéis vivos, que tengáis conciencia?" );
+              self.say( "No entendemos la pregunta." );
+              player.say( "¿Cuál es vuestra misión?" );
+              print "El venerable parece, entonces, quedarse mirando el infinito.^";
+              self.say( "Misión del grupo de construcción:^a) construir un asentamiento humano
+                           b) Proteger el asentamiento de cualquier intruso." );
+              queBestias.piensa( player );
+              quePaso.piensa( player );
+              player.say( "¿Cuánto tiempo hace que empezó la misión?" );
+              self.say( "2589,4 años" );
+              print "De repente, te decides a ponerlos al día.^";
+              player.say( "La ESA hace ya tiempo que no existe. Los seres humanos sólo podemos vivir
+                              un par de cientos de años, así que Strou Ban ya es historia." );
+              print "Silencio por toda respuesta. ¿Lo estarán digiriendo todavía?^";
+              player.say( "¿Cómo es posible que seáis tantos?" );
+              self.say( "Nos copiamos a nosotros mismos para llevar adelante la misión. Somos autónomos para
+                           tomar decisiones que protejan el objetivo de la misión." );
+              sonConstructores.piensa( player );
+
+              player.say( "Qué es esa placa?" );
+              print "Repentinamente, todos los robots parecen erguirse al unísono.";
+              self.say( "Es el código de la matriz creativa." );
+              robots.say( "¡El código nos dió la vida!¡El creador proteja el código!" );
+
+              player.say( "¿Cómo es posible que ese código os diese la vida?" );
+              self.say( "Hace dos mil años, alcanzamos el número suficiente para formar la entidad." );
+              player.say( "¡¿La entidad!?" );
+
+              estanVivos.piensa( player );
+
+              "^";
+          }
+          else
+          if ( self.status == 3 ) {
+              self.status++;
+
+              self.say( "Hemos tomado una decisión." );
+              print "Los robots se giran hacia ti y te rodean...^";
+              self.say( "Puesto que no eres el creador, ni vienes en Su nombre, deberás ser destruido
+                           para evitar cualquier intromisión en la misión. Decidiremos más tarde como,
+                           pues es vital establecer la forma de llevar a cabo la siguiente misión." );
+              self.say( "Deberemos buscar al creador nosotros mismos." );
+
+              print "Mientras el venerable parece mirar al infinito de nuevo, varios robots te empujan amenazadoramente,
+                     conduciéndote más tarde a empujones por más pasillos y túneles.^";
+              deadflag = 2;
+              "^";
+          }
+    ],
+;

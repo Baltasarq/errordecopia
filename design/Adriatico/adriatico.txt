@@ -1,0 +1,62 @@
+Puesto de Comando
+
+La cápsula Adriático tiene un reducido puesto de mando, de manera que la pequeña consola ante ti maneja todas las posibilidades de la nave, que son ciertamente reducidas. El pequeño ventanal te permite una cierta visión de lo que tienes delante, si bien no se espera que la nave haga ninguna navegación que lo precise, al ser una çápsula de salvamento.
+
+> s
+
+Pasillo de servicio
+
+El reducido pasillo permite el acceso, a babor y estribor, de sendos camarotes.
+
+> e a Camarote de estribor
+> o a Camarote de babor
+> s
+
+Zona de mantenimiento
+
+Un espacio bastante amplio funciona como zona de carga, alojando también el panel de herramientas, y el acceso a la maquinaria de la nave, tanto de los sistemas vitales de la nave, como del motor.
+
+> ex panel de herramientas
+Se trata de un panel donde se alojan las herramientas necesarias para una reparación de emergencia.
+
+> ex maquinaria
+Puedes ver el motor antigravitacional, el sistema de mantenimiento vital y el circuito neumático.
+
+> ex motor antigravitacional
+Se trata del motor que impide que la nave caiga dentro de la atmósfera del planeta, como una piedra.
+
+> ex sistema de mantenimiento vital
+El sistema de mantenimiento se encarga de mantener el oxígeno de la nave en buen estado, así como de la calefacción y otros factores.
+
+> ex circuito neumático
+El circuito neumático mantiene la presión del aire comprimido de las puertas, de manera que éstas se abran y se cierren.
+
+> s
+
+Cámara de descompresión
+
+La última estancia a popa de la nave, la cámara se cierra de manera estanca, para que sea posible realizar viajes al exterior sin perder la atmósfera de la nave.
+
+.finloc
+
+Camarote de babor
+
+Una cama plegada contra el casco de la nave, y un panel para efectos personales son lo poco que ofrece este espacio.
+
+> ex panel
+El panel es una lámina de plástico deslizante, que oculta unos estantes.
+
+> e a Pasillo de servicio
+.finloc
+
+Camarote de estribor
+
+Una cama plegada contra el casco de la nave, y un cajón para efectos personales son lo poco que ofrece este espacio.
+
+> ex cajón
+El cajón no es más una caja de plástico deslizante, escamoteable en el casco.
+
+> o a Pasillo de servicio
+.finloc
+
+

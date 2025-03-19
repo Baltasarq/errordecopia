@@ -1,0 +1,112 @@
+      0 txtMap v0.41 20070517
+      0 entrada: pacifico.txt
+      0 ========================
+      1 nueva localidad 'Puente de Mando'
+      3 tomando descripción
+      5 preparando primer movimiento
+      5 Puente de Mando por ESTE a Comando del Piloto
+      6 Puente de Mando por OESTE a Comando del Navegante
+      9 nueva localidad 'Sala de comunicaciones'
+      9 'Puente de Mando' por SUR a 'Sala de comunicaciones'
+      9 'Sala de comunicaciones' por [inversa]  NORTE a 'Puente de Mando'
+     11 tomando descripción
+     13 preparando primer movimiento
+     15 nueva localidad 'Ascensor'
+     15 'Sala de comunicaciones' por SUR a 'Ascensor'
+     15 'Ascensor' por [inversa]  NORTE a 'Sala de comunicaciones'
+     17 tomando descripción
+     19 FINLOC encontrado
+     21 nueva localidad 'Comando del Piloto'
+     23 tomando descripción
+     25 preparando primer movimiento
+     25 Comando del Piloto por OESTE a Puente de Mando
+     27 FINLOC encontrado
+     29 nueva localidad 'Comando del Navegante'
+     31 tomando descripción
+     33 preparando primer movimiento
+     33 Comando del Navegante por ESTE a Puente de Mando
+     34 FINLOC encontrado
+     36 nueva localidad 'Cápsula Adriático'
+     38 tomando descripción
+     40 preparando primer movimiento
+     40 Cápsula Adriático por ESTE a Cámara de acceso a cápsulas
+     42 FINLOC encontrado
+     44 nueva localidad 'Cápsula Trirreno'
+     46 tomando descripción
+     48 preparando primer movimiento
+     50 nueva localidad 'Cámara de acceso a cápsulas'
+     50 'Cápsula Trirreno' por OESTE a 'Cámara de acceso a cápsulas'
+     50 'Cámara de acceso a cápsulas' por [inversa]  ESTE a 'Cápsula Trirreno'
+     52 tomando descripción
+     54 preparando primer movimiento
+     54 Cámara de acceso a cápsulas por OESTE a Cápsula Adriático
+     57 nueva localidad 'Pasillo de servicio nivel 1'
+     57 'Cámara de acceso a cápsulas' por SUR a 'Pasillo de servicio nivel 1'
+     57 'Pasillo de servicio nivel 1' por [inversa]  NORTE a 'Cámara de acceso a cápsulas'
+     59 tomando descripción
+     61 tomando desc. objeto
+     61 Aceptando descripción de objeto 
+     61 Objeto conducciones
+     64 tomando desc. objeto
+     64 Aceptando descripción de objeto 
+     64 Objeto tubos
+     67 tomando desc. objeto
+     67 Aceptando descripción de objeto 
+     67 Objeto abrazaderas
+     73 nueva localidad 'Túnel de mantenimiento'
+     73 'Pasillo de servicio nivel 1' por ABAJO a 'Túnel de mantenimiento'
+     73 'Túnel de mantenimiento' por [inversa]  ARRIBA a 'Pasillo de servicio nivel 1'
+     75 tomando descripción
+     77 preparando primer movimiento
+     79 nueva localidad 'Sala de Máquinas'
+     79 'Túnel de mantenimiento' por SUR a 'Sala de Máquinas'
+     79 'Sala de Máquinas' por [inversa]  NORTE a 'Túnel de mantenimiento'
+     81 tomando descripción
+     83 tomando desc. objeto
+     83 Aceptando descripción de objeto 
+     83 Objeto maquinaria
+     86 tomando desc. objeto
+     86 Aceptando descripción de objeto 
+     86 Objeto motores
+     89 tomando desc. objeto
+     89 Aceptando descripción de objeto 
+     89 Objeto célula
+     92 tomando objeto
+     92 Creando/modificando objeto (coger).
+     92 Objeto ya existente: célula
+     94 FINLOC encontrado
+     96 nueva localidad 'Pasillo de Servicio del Nivel 0'
+     98 tomando descripción
+    100 preparando primer movimiento
+    100 Pasillo de Servicio del Nivel 0 por ESTE a Cocina
+    101 Pasillo de Servicio del Nivel 0 por OESTE a Sala de descanso
+    105 nueva localidad 'Almacén'
+    105 'Pasillo de Servicio del Nivel 0' por NORTE a 'Almacén'
+    105 'Almacén' por [inversa]  SUR a 'Pasillo de Servicio del Nivel 0'
+    107 tomando descripción
+    109 tomando desc. objeto
+    109 Aceptando descripción de objeto 
+    109 Objeto herramientas
+    112 tomando desc. objeto
+    112 Aceptando descripción de objeto 
+    112 Objeto comida
+    115 FINLOC encontrado
+    117 nueva localidad 'Cocina'
+    119 tomando descripción
+    121 tomando desc. objeto
+    121 Aceptando descripción de objeto 
+    121 Objeto maquina rehidratadora
+    124 Cocina por OESTE a Pasillo de Servicio del Nivel 0
+    126 FINLOC encontrado
+    128 nueva localidad 'Sala de descanso'
+    129 tomando descripción
+    131 preparando primer movimiento
+    131 Sala de descanso por OESTE a Pasillo de Servicio del Nivel 0
+    132 tomando desc. objeto
+    132 Aceptando descripción de objeto 
+    132 Objeto mesa
+    135 tomando desc. objeto
+    135 Aceptando descripción de objeto 
+    135 Objeto banco
+    138 FINLOC encontrado
+    139 Fín del proceso de pacifico.txt ...

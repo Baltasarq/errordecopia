@@ -1,0 +1,277 @@
+! generado por INFORMATE@txtMap, v0.2/ v0.41 20070517
+! Mon Aug 20 20:50:33 2007
+
+! ================= LOCALIDADES ===============
+
+
+NaveEspacial CAMAROTE_DE_BABOR_ADRIATICO "Camarote de babor"
+with
+    description "^Una cama plegada contra el casco de la nave,
+                  y un panel para efectos personales son lo poco que ofrece este espacio.",
+    e_to PASILLO_DE_SERVICIO_ADRIATICO,
+    out_to PASILLO_DE_SERVICIO_ADRIATICO,
+;
+
+ObjetoEstatico obj_cama_camarote "cama plegable"
+with
+    found_in [;
+        if ( location == CAMAROTE_DE_BABOR_ADRIATICO
+                          or CAMAROTE_DE_BABOR
+                          or CAMAROTE_DE_ESTRIBOR
+                          or CAMAROTE_DE_ESTRIBOR_ADRIATICO )
+        {
+            rtrue;
+        }
+        rfalse;
+    ],
+    name 'cama',
+    description "Una cama escamoteable en el casco de la nave.",
+    before [;
+        Examine: rfalse;
+        default: "Tienes cosas más importantes en las que pensar que enredar con la cama.";
+    ],
+
+has female;
+
+ObjetoEstatico obj_cajon_camarote "cajón"
+with
+    found_in [;
+        if ( location == CAMAROTE_DE_ESTRIBOR
+                          or CAMAROTE_DE_ESTRIBOR_ADRIATICO )
+        {
+            rtrue;
+        }
+        rfalse;
+    ],
+    name 'cajon',
+    description "Un cajón, para guardar algunas cosas personales. Es más una caja de plástico deslizante, escamoteable en el casco.",
+has container openable;
+
+ObjetoEstatico obj_panel_camarote "panel"
+with
+    found_in [;
+        if ( location == CAMAROTE_DE_BABOR
+                          or CAMAROTE_DE_BABOR_ADRIATICO )
+        {
+            rtrue;
+        }
+        rfalse;
+    ],
+    name_m 'panel' 'armario' 'estante',
+    name_pm 'estantes',
+    description "Un panel, para guardar algunas cosas personales. Es una lámina de plástico deslizante, que oculta unos estantes.",
+has container openable;
+
+NaveEspacial CAMAROTE_DE_ESTRIBOR_ADRIATICO "Camarote de estribor"
+with
+    description "^Una cama plegada contra el casco de la nave,
+                  y un cajón para efectos personales son lo poco que ofrece este espacio.",
+    w_to PASILLO_DE_SERVICIO_ADRIATICO,
+    out_to PASILLO_DE_SERVICIO_ADRIATICO
+;
+
+NaveEspacial CAMARA_DESCOM_ADRIATICO "Cámara de descompresión"
+with
+    description "^La última estancia a popa de la nave, la cámara se cierra mediante la puerta exterior estanca,
+                  para que sea posible realizar viajes al exterior sin perder la atmósfera de la nave.^
+                  Un cajón se ha desplazado hasta quedar apoyado en el casco de la nave.",
+    n_to ZONA_DE_MANTENIMIENTO_ADRIATICO,
+
+;
+
+NaveEspacial PASILLO_DE_SERVICIO_ADRIATICO "Pasillo de servicio"
+with
+    description "^El reducido pasillo permite el acceso, a babor y estribor, de sendos camarotes.",
+    n_to PUESTO_DE_COMANDO_ADRIATICO,
+    s_to ZONA_DE_MANTENIMIENTO_ADRIATICO,
+    e_to CAMAROTE_DE_ESTRIBOR_ADRIATICO,
+    w_to CAMAROTE_DE_BABOR_ADRIATICO,
+
+;
+
+Localidad PUESTO_DE_COMANDO_ADRIATICO "Puesto de Comando"
+with
+    description [;
+        ViewImageLeft( grfComandoCapsula, 400 );
+        "^La cápsula Adriático tiene un reducido puesto de mando, de manera que la pequeña
+          consola ante ti maneja todas las posibilidades de la nave, que son ciertamente reducidas.
+          El pequeño ventanal te permite una cierta visión de lo que tienes delante,
+          si bien no se espera que la nave haga ninguna navegación que lo precise,
+          al ser una cápsula de salvamento.";
+    ],
+    s_to PASILLO_DE_SERVICIO_ADRIATICO,
+;
+
+ObjetoEstatico OBJ_SILLON_COMANDO_ADRIATICO "sillón" PUESTO_DE_COMANDO_ADRIATICO
+with
+    name 'sillon',
+    description "El conocido y seguro sillón de mando.",
+has scenery supporter enterable;
+
+NaveEspacial ZONA_DE_MANTENIMIENTO_ADRIATICO "Zona de mantenimiento"
+with
+    description "^Un espacio bastante amplio funciona como zona de carga, alojando también el panel de herramientas, y el acceso a la maquinaria de la nave, tanto de los sistemas vitales de la nave, como del motor.",
+    n_to PASILLO_DE_SERVICIO_ADRIATICO,
+    s_to CAMARA_DESCOM_ADRIATICO,
+
+;
+
+! ================= OBJETOS ===============
+
+ObjetoEstatico OBJ_CIRC_NEUMATICO_ADRIATICO "circuito neumático" ZONA_DE_MANTENIMIENTO_ADRIATICO
+with
+    name 'CIRCUITO',
+    description "El circuito neumático mantiene la presión del aire comprimido de las puertas, de manera que éstas se abran y se cierren."
+has   ;
+
+ObjetoEstatico OBJ_MAQUINARIA_ADRIATICO "maquinaria" ZONA_DE_MANTENIMIENTO_ADRIATICO
+with
+    name 'MAQUINARIA',
+    description "Puedes ver el motor antigravitacional, el sistema de mantenimiento vital y el circuito neumático."
+has female  ;
+
+ObjetoEstatico OBJ_MOT_ANTIGRAV_ADRIATICO "motor antigravitacional" ZONA_DE_MANTENIMIENTO_ADRIATICO
+with
+    name 'MOTOR',
+    description "Se trata del motor que impide que la nave caiga dentro de la atmósfera del planeta, como una piedra."
+has   ;
+
+ObjetoEstatico OBJ_PANEL_HERRAMIENTAS_ADRIATICO "panel de herramientas" ZONA_DE_MANTENIMIENTO_ADRIATICO
+with
+    name 'PANEL' 'armario' 'herramientas',
+    description "Se trata de un panel donde se alojan las herramientas necesarias para una reparación de emergencia."
+has container openable ;
+
+ObjetoEstatico OBJ_SIST_MANT_VITAL_ADRIATICO "sistema de mantenimiento vital" ZONA_DE_MANTENIMIENTO_ADRIATICO
+with
+    name 'SISTEMA',
+    description "El sistema de mantenimiento se encarga de mantener el oxígeno de la nave en buen estado, así como de la calefacción y otros factores."
+has female  ;
+
+ObjetoEstatico OBJ_PUERTA_ADRIATICO "puerta de la cámara de descompresión" CAMARA_DESCOM_ADRIATICO
+with
+    name 'puerta' 'estanca' 'exterior',
+    description [;
+        print "La puerta que separa el mundo exterior de la cápsula es recia y compacta.^";
+        <Examine OBJ_PANEL_PUERTA_ADRIATICO>;
+        <<Examine OBJ_BOTONPUERTA_ADRIATICO>>;
+    ],
+;
+
+ObjetoEstatico OBJ_PANEL_PUERTA_ADRIATICO "panel de la puerta" Limbo
+with
+    name 'panel' 'mantenimiento' 'control',
+    description [;
+        if ( self in Limbo ) return;
+
+        print "Un panel de mantenimiento, se sitúa debajo y a la derecha de la puerta estanca.^";
+
+        if ( self has open )
+                "Cuelga de sus soportes, paralelo al suelo.";
+        else    "Está cerrado mediante tornillos.";
+    ],
+    before [;
+        Turn:
+            if ( self has open )
+                    <<Close self>>;
+            else    <<Open self>>;
+        Open:
+            if ( OBJ_DESTORNILLADOR in player
+              || OBJ_DESTORNILLADOR in CAMARA_DE_DESCOMPRESION )
+            {
+                print "Destornillas con cuidado el panel, de manera que queda colgando, paralelo al suelo.^";
+                rfalse;
+            }
+            else "No puedes hacerlo con las manos desnudas.";
+        Close:
+            if ( OBJ_DESTORNILLADOR in player
+              || OBJ_DESTORNILLADOR in CAMARA_DE_DESCOMPRESION )
+            {
+
+                give self ~open;
+                "Atornillas de nuevo el panel, dejándolo cerrado.";
+            }
+            else "No puedes hacerlo con las manos desnudas.";
+    ],
+has openable container;
+
+class Cable
+class Objeto
+with
+    estado 0,
+    description [;
+        if ( self.estado == 0 ) {
+            "El cable está conectado al resto de mecanismos. Sabes que los cables rojo y amarillo, empalmados,
+             garantizan que la puerta se abra siempre.";
+        }
+        else
+        if ( self.estado == 1 ) {
+            "El cable está libre, con la punta de su cuerpo de cobre libre.";
+        }
+        else
+        if ( self.estado == 2 ) {
+            "Ambos cables están empalmados.";
+        }
+    ],
+    before [;
+        PutOn:
+            "No es posible, los cables están sujetos a los circuitos.";
+        Take, Pull, Push, SwitchOff:
+            if ( self.estado == 0 ) {
+                self.estado = 1;
+                "Desconectas el cable, que ahora ya está libre.";
+            }
+            else "No ocurre nada.";
+        Tie:
+            if ( noun == second ) {
+                "Eso no ayudaría en nada.";
+            }
+
+            if ( self.estado == 1 ) {
+                if ( second ofclass Cable
+                  || second == nothing )
+                {
+                    if ( OBJ_CABLE_ROJO.estado == 1
+                      && OBJ_CABLE_AMARILLO.estado == 1 )
+                    {
+                        OBJ_CABLE_ROJO.estado = 2;
+                        OBJ_CABLE_AMARILLO.estado = 2;
+
+                        "Empalmas ambos cables.";
+                    }
+                    else "Ambos cables deberían estar libres.";
+                } else "No tiene utilidad empalmar un cable con otra cosa que no sea un cable.";
+            } else { print (The) noun, " no está libre."; rtrue; }
+    ],
+
+;
+
+Cable obj_cable_rojo "cable rojo" OBJ_PANEL_PUERTA_ADRIATICO
+with
+    name 'cable' 'rojo',
+;
+
+Cable obj_cable_amarillo "cable amarillo" OBJ_PANEL_PUERTA_ADRIATICO
+with
+    name 'cable' 'amarillo',
+;
+
+ObjetoEstatico obj_botonPuerta_ADRIATICO "botón de apertura" CAMARA_DESCOM_ADRIATICO
+with
+    name 'boton' 'apertura',
+    description "Un botón, que permite la apertura de la puerta, se sitúa a la derecha de la misma.",
+    before [;
+        Push:
+            if ( OBJ_CABLE_ROJO.estado == 2
+              && OBJ_CABLE_AMARILLO.estado == 2 )
+            {
+                print "La puerta de la cámara se cierra, para el intercambio de presiones.^
+                       La puerta exterior se abre, permitiéndote salir al exterior...^^";
+                PlayerTo( AREA_CAPSULA, 2 );
+                StopTimer( consolaCapsula );
+                rtrue;
+            }
+            else "Pulsas el botón, pero no sucede nada.";
+    ],
+;
+

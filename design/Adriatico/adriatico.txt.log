@@ -1,0 +1,52 @@
+      0 txtMap v0.41 20070517
+      0 entrada: adriatico.txt
+      0 ========================
+      1 nueva localidad 'Puesto de Comando'
+      3 tomando descripción
+      5 preparando primer movimiento
+      7 nueva localidad 'Pasillo de servicio'
+      7 'Puesto de Comando' por SUR a 'Pasillo de servicio'
+      7 'Pasillo de servicio' por [inversa]  NORTE a 'Puesto de Comando'
+      9 tomando descripción
+     11 preparando primer movimiento
+     11 Pasillo de servicio por ESTE a Camarote de estribor
+     12 Pasillo de servicio por OESTE a Camarote de babor
+     15 nueva localidad 'Zona de mantenimiento'
+     15 'Pasillo de servicio' por SUR a 'Zona de mantenimiento'
+     15 'Zona de mantenimiento' por [inversa]  NORTE a 'Pasillo de servicio'
+     17 tomando descripción
+     19 tomando desc. objeto
+     19 Aceptando descripción de objeto 
+     19 Objeto panel de herramientas
+     22 tomando desc. objeto
+     22 Aceptando descripción de objeto 
+     22 Objeto maquinaria
+     25 tomando desc. objeto
+     25 Aceptando descripción de objeto 
+     25 Objeto motor antigravitacional
+     28 tomando desc. objeto
+     28 Aceptando descripción de objeto 
+     28 Objeto sistema de mantenimiento vital
+     31 tomando desc. objeto
+     31 Aceptando descripción de objeto 
+     31 Objeto circuito neumático
+     36 nueva localidad 'Cámara de descompresión'
+     36 'Zona de mantenimiento' por SUR a 'Cámara de descompresión'
+     36 'Cámara de descompresión' por [inversa]  NORTE a 'Zona de mantenimiento'
+     38 tomando descripción
+     40 FINLOC encontrado
+     42 nueva localidad 'Camarote de babor'
+     44 tomando descripción
+     46 tomando desc. objeto
+     46 Aceptando descripción de objeto 
+     46 Objeto panel
+     49 Camarote de babor por ESTE a Pasillo de servicio
+     50 FINLOC encontrado
+     52 nueva localidad 'Camarote de estribor'
+     54 tomando descripción
+     56 tomando desc. objeto
+     56 Aceptando descripción de objeto 
+     56 Objeto cajón
+     59 Camarote de estribor por OESTE a Pasillo de servicio
+     60 FINLOC encontrado
+     62 Fín del proceso de adriatico.txt ...

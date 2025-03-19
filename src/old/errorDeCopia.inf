@@ -1,0 +1,441 @@
+!% +language_name=Spanish
+!% $MAX_STATIC_DATA=20000
+!% +include_path=res\lib\I6Sp,res\lib\contrib,c:\informate\lib,c:\informate\mylib
+
+! pacifico
+! Comenzado el día 20 de Agosto de 2007 -> -315365.52
+
+Constant Story "^Error de Copia^";
+Constant Headline  "Una odisea espacial interactiva.^^
+                   [Aquellos que juegan por primera vez a esta aventura deberían introducir AYUDA
+                    antes de empezar]^^";
+Constant AMUSING_PROVIDED;
+Constant NO_SCORE;
+Release 2;
+
+[ curiosidades;
+    borrarPantalla();
+    Negrita();
+    print "Error de Copia";
+    Normal();
+    Italica();    
+    print "    (Una odisea espacial interactiva)";
+    Normal();
+    
+    print "^^Escrita con la ayuda de:
+            ^ - Lenguaje de aventuras: InformATE! (por Graham Nelson, traducido y adaptado por Zak),
+            ^ - Entorno de desarrollo: Jif (por Alessandro Schillaci y Mapache)
+            ^ - Multimedia: SMW basado en SGW (por Alessandro Schillaci, Vincenzo Scarpa, Paolo Maroncelli)
+            ^ - Generador de código: txtMap.^^";
+            
+    print "Mil gracias a la inestimable ayuda de Jenesis como Betatester de urgencia. Cualquier
+           error que encuentres, en cualquier caso, sólo es achacable al autor.^";
+            
+    print "^Esta aventura conversacional me rondaba la cabeza desde hacía bastante tiempo.
+           En algún momento, leí una historia sobre cómo se colonizarían otros planetas, incluso terraformándolos,
+           mediante la ayuda de robots que serían capaces de construir copias de sí mismos para abordar el trabajo.^^
+           Con una sonrisa, se me ocurrió, no se por qué, que podría pasar que los robots perdieran el control de cuántas
+           copias de sí mismos hacían, y lo que podría pasar en ese caso.^^";
+           
+    print "Strou Ban no es más que una pequeña conversión de ~Bjarne Stroustrup~, el inventor de C++.^^";
+           
+    print "La primera vez que hablé públicamente de esta aventura, fue en una entrevista que me hizo
+           Urba con motivo de algún concurso. Finalmente, después de varios años, la he hecho.^^";
+           
+    print "Esta aventura fue diseñada para presentarse a la FIComp, que terminó de aceptar participantes el 31 de Agosto,
+           y se empezó en la fecha estelar indicada en el comienzo de la aventura (que puede convertirse empleando una calculadora
+           de fechas estelares de Star Trek).^^";
+           
+    print "No hay nada sobre fechas estelares realmente desarrollado, así que escogí la referencia de Star Trek, pues
+           en esta situación es tan buena como cualquier otra.^^";
+            
+    Italica();
+    print "^http://caad.es/baltasarq/^";
+    Normal();
+    
+
+    print "^^^Relato escrito durante el verano de 2007^^";
+    Italica();
+    print "... por Baltasar, el arquero.
+           ^
+           ^    baltasarq@@64yahoo.es^^";
+    Normal();     
+];
+
+Include "Parser";
+Include "infglk";
+Include "smw";
+
+Object LibraryMessages
+with
+    before [;
+        if ( accion == ##miscellany && lm_n == 4 ) {
+               Negrita();
+               print "¡Estás perdido!^";
+               Normal();
+               rtrue;
+        }
+    ],
+;
+
+Include "VerbLib";
+Include "SpanishG";
+Include ">Personaje.inf";
+Include "Array";
+Include "Escr";
+Include "Responde";
+Include "Pensamientos";
+Include "Puertas";
+Include "Decorado";
+Include "Cortos";
+Include "Triespacio";
+
+
+[ mueresAsfixiado;
+    banderafin = 1;
+    
+    print "^...^^Es una sensación más que otra cosa.";
+    esperarTecla();
+    print "^^...^";
+    esperarTecla();
+    print "...^^";
+    esperarTecla();
+    print "Notas como te vas quedando sin aire ... cada vez
+           te cuesta más respirar. Caes al suelo, boqueando entre estertores.^";
+];
+
+DireccionBrujula estribor_obj "estribor" brujula
+with 
+    nombre 'estribor',
+    direcc_puerta al_e
+;
+
+DireccionBrujula babor_obj "babor" brujula
+with 
+    nombre 'babor' 'b//',
+    direcc_puerta al_o
+;
+
+DireccionBrujula proa_obj "proa" brujula
+with 
+    nombre 'proa',
+    direcc_puerta al_n
+;
+
+DireccionBrujula popa_obj "popa" brujula
+with 
+    nombre 'popa',
+    direcc_puerta al_s
+;
+
+
+object limbo "Limbo"
+    with descripcion "limbo"
+;
+
+class Habitacion
+with no_puedes_ir [; print "No puedes ir por ahí.^"; <<salidas>>; ]
+;
+
+class Localidad
+class Habitacion
+has luz;
+
+class NaveEspacial
+class Localidad
+with
+    no_puedes_ir [; print "Recuerda moverte hacia popa, popa, babor, estribor.^";
+                    return self.Habitacion::no_puedes_ir();
+    ]
+;
+
+class Objeto;
+
+class ObjetoEstatico
+class Objeto
+has escenario;
+
+Include ">errorDeCopia.bli";
+Include ">pacifico.inf";
+Include ">base.inf";
+Include ">trirreno.inf";
+Include ">adriatico.inf";
+Include ">desierto.inf";
+Include ">personajesErrorDeCopia.inf";
+
+[ preparaConexionesNauticas;
+    move popa_obj to brujula;
+    move proa_obj to brujula;
+    move babor_obj to brujula;
+    move estribor_obj to brujula;
+];
+
+[ eliminaConexionesNauticas;
+    move popa_obj to limbo;
+    move proa_obj to limbo;
+    move babor_obj to limbo;
+    move estribor_obj to limbo;
+];
+
+
+[ inicializar;    
+    ! Configurar los gráficos
+    initializeSMW( 320, false );
+    
+    ! Preparar los decorados
+    inicializarDecorados();
+    
+    ! Preparar las puertas
+    inicializarConexiones();
+        
+    ! El jugador
+    cambiarJugador( Rasatlab );
+    
+    ! Notificaciones y configuraciones
+    modomirar = 2;                                ! describe siempre,
+    modo_notificar = 0;                           ! no notifiques la puntuación,
+    parser_listo = 0;                             ! y no preguntes cosas estúpidas.
+    
+    ! Intro
+    viewImageCenter( grfCarguero, 400 );
+    print "^";
+    Negrita();
+    print "Carguero ~Pacífico~^";
+    Normal();
+    Italica();
+    print "   Error de Copia - Una odisea espacial interactiva^^";
+    Normal();
+    
+    print "¿Deseas ver la introducción? ";
+    
+    if ( SiONo() ) {
+        borrarPantalla();
+        Proporcional();
+        mensajeConsolaInicio.visualiza();
+        Normal();
+        borrarPantalla();
+        print "Despiertas ... de mala manera ... como siempre después de la criogenia. ";
+        esperarTecla();
+        print "Miras a tu alrededor.^Sólo tú estás despierto ... los demás siguen durmiendo.";
+        esperarTecla();
+        print " Escuchas la llamada por los altavoces ocultos en la vaina criogénica.^";
+        
+        consolaPacifico.decir( "Aviso de código alfa -- sólo para el comandante" );
+        consolaPacifico.decir( "Detectada llamada de emergencia en planeta cercano." );
+        consolaPacifico.decir( "Acuda al puente a la máxima brevedad." );
+        
+        print "Te levantas ... como puedes. Te desperezas mientras intentas
+               recuperar de tu memoria, como si
+               la nave fuera tan grande, que el puente está en el tercer nivel.^";
+        esperarTecla();
+    }
+    
+    borrarPantalla();
+    localizacion = SALA_DE_CRIOGENIA; arrancarReloj( OBJ_MISIL, TURNOS_MISIL_IMPACTA );
+
+    !localizacion = AREA_DEL_TUNEL; move OBJ_TRAJE to jugador; give OBJ_traje puesto; !give jugador luz;
+    !localizacion = AREA_CAPSULA; move DeslizadorFalso to AREA_CAPSULA;move OBJ_TRAJE to jugador; give OBJ_traje puesto;
+    !localizacion = SALA_DEL_VENERABLE;  move OBJ_TRAJE to jugador; give OBJ_traje puesto;
+    !localizacion = CAPSULA_TRIRRENO; CAPSULA_ADRIATICO.enviarAPlaneta();
+    
+];
+
+! Déjalo, sólo es decorado     ------------------------------------------------
+
+class DecoradoBase
+class Decorado
+with
+    antes [;
+        examinar:
+            rfalse;
+        oler, tocar, probar:
+            "Nada de especial.";
+        coger, subir, girar, empujar, tirar, vaciar:
+            "¿Crees que eso podría servir realmente para algo?";
+        buscarEn, meterse:
+            "No serviría de nada.";
+        default:
+            "Me temo que no puedes hacer eso.";
+    ],
+    reaccionar_antes [;
+        tocar, probar, oler:
+            if ( uno == obj_arriba ) {
+                "Cómo vas a hacer eso ... ¡No puedes llegar hasta el cielo!";
+            }
+    ]
+;
+
+class DecoradoNaveEspacial(28)
+class DecoradoBase
+with
+    descParedes
+        "Las paredes son lisas y sin ninguna marca aparente.",
+    describir
+        'paredes' [; return self.descParedes; ] G_FEMENINO + G_PLURAL
+        'pared'   [; return self.descParedes; ] G_FEMENINO
+        'nave'    "La misma vieja conocida de siempre." G_FEMENINO
+        'puerta'  "Esto está lleno de puertas neumáticas, que comunican las cámaras entre sí." G_FEMENINO
+;
+
+class DecoradoBaseLoc(20)
+class DecoradoBase
+with
+    descParedes
+        "Las paredes son lisas y sin ninguna marca aparente, de la misma resina plástica de la que está hecho todo.",
+    describir
+        'paredes' [; return self.descParedes; ] G_FEMENINO + G_PLURAL
+        'pared'   [; return self.descParedes; ] G_FEMENINO
+        'base'    "Muy blanca y limpia, aunque polvorienta." g_FEMENINO
+        'puerta'  "Esto está lleno de puertas neumáticas, que comunican las estancias entre sí." G_FEMENINO
+;
+
+[ inicializarDecorados muestraNum numNave numBase;
+    numNave = inicializarDecoradosNaveEspacial();
+    numBase = inicializarDecoradosBaseLoc();    
+    
+    if ( muestraNum ) {
+        print "^Núm. decorados Nave Espacial: ", numNave,
+              " remanentes: ", DecoradoNaveEspacial.remaining(), "^"
+        ;
+
+        print "^Núm. decorados BaseLoc: ", numBase,
+              " remanentes: ", DecoradoBaseLoc.remaining(), "^"
+        ;
+        
+        esperarTecla();
+        borrarPantalla();
+    }
+];
+
+[ inicializarDecoradosNaveEspacial x dec num;
+    num = 0;
+
+    objectloop ( x ofclass NaveEspacial ) {
+        dec = DecoradoNaveEspacial.create();
+        move dec to x;
+        num++;
+    }
+   
+    return num;
+];
+
+[ inicializarDecoradosBaseLoc x dec num;
+    num = 0;
+
+    objectloop ( x ofclass BaseLoc ) {
+        dec = DecoradoBaseLoc.create();
+        move dec to x;
+        num++;
+    }
+   
+    return num;
+];
+
+class EscrituraConTecleo
+class Escritura
+private
+    sonido sndTecla,
+    volumen VOLUME_NORMAL,
+;
+
+EscrituraConTecleo mensajeConsolaInicio
+private
+    elementos
+        "Ordenador de abordo -- Carguero espacial ~Pacífico~"
+        "Fecha estelar: -315365.52"
+        "Restaurando nivel operativo INIT 3 -- despertando sistemas."
+        ""
+        "Atmósfera en cabina -- depurando    -- OK"
+        "Sistemas de navegación manual       -- OK"
+        "Sistemas de comunicaciones manuales -- OK"
+        "Sistemas calefactores               -- OK"
+        "Autochequeo                         -- OK"
+        "Nivel operativo 3 alcanzado -- todos los sistemas trabajando correctamente."
+        ""
+        "Recibida llamada de socorro del planeta XRJ43."
+        ""
+        "Protocolo/Directiva 6-1A prevalece sobre orden de derrota hacia destino."
+        "Desconectando piloto automático."
+        "Desviando el rumbo hacia el planeta XRJ43."
+        ""
+        "Protocolo/Directiva 6-1A catalogada nivel Alfa -- secreto."
+        "Despertando sólo al capitán"
+with
+    PausaLetra -1,
+;
+
+[ayudaSub;
+    print "^Las órdenes siguientes son básicas y pueden encontrarse
+      en casi cualquier aventura conversacional. El jugador 
+      puede tratar siempre de hacer otras acciones.^^"
+    ;
+    Proporcional();
+    print "^
+     ayuda                 -   Esta ayuda.^ 
+     ex, examinar x        -   Da una descripción de x.^
+     examinarme, xme       -   Información sobre ti y sobre tu misión.^
+     hablar con y          -   Permite comunicarse con y, si está presente.^
+     coge x, deja x        -   x pasa a ser o deja de ser llevado.^
+     i, inventario         -   Da una lista de los objetos llevados.^
+     Dar x a y             -   Ofrece el objeto x al personaje y.^
+     consola, selecciona x -   Selecciona la opción x en un ordenador^
+     pulsa primer boton,^
+     pulsa <x> boton       -   Pulsa el botón deseado (x) en un ascensor^
+     ^^"
+    ;
+    Normal();
+    print "Por Baltasar, el Arquero.
+     ^^
+      Mándame tus comentarios a: baltasarq@@64yahoo.es
+      ^^
+      Tú eres ...
+    ^";
+    <<examinar jugador>>;
+];
+
+[contarSub;
+    if ( uno has nombreplural ) {
+        if ( uno has femenino )
+                "Más de una, seguro ...";
+        else    "Más de uno, seguro ...";
+    }
+    else {
+        if ( uno has femenino )
+                "Una.";
+        else    "Uno.";
+    }
+];
+
+extend 'cuenta' first
+    * noun -> contar
+;
+
+Verb 'selecciona'
+    * 'a//'/'la' number -> ponerA
+    * 'opcion' number -> ponerA
+    * 'la' 'opcion' number -> ponerA
+    * number -> ponerA    
+    * topic -> ponerA        
+;
+
+Extend 'habla' replace
+      * 'con' creature -> hablar
+      * 'a//' creature -> hablar
+      * 'al' creature -> hablar
+;
+
+Verb 'oprime' = 'empuja';
+VerboIrregular "oprime" with infinitivo "oprimir";
+
+Verb 'empalma' = 'ata';
+Verb 'lija' 'rasca' = 'frota';
+
+Extend 'ata' last
+    * noun 'y//' noun -> atar
+    * noun 'con' noun -> atar
+    * noun 'al' noun -> atar    
+;
+
+Verb meta 'ayuda' 'pistas'
+    * -> ayuda
+;

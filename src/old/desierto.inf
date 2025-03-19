@@ -1,0 +1,204 @@
+! Desierto.inf
+! El desierto entre la cápsula de emergencia y la base
+
+! El espacio por el que se va a mover el deslizador
+
+Espacio EspacioDesierto
+private
+    maxx 100,
+    maxy 100,
+    maxz 1,
+    obstaculos obst1,
+with
+    siXesMaxX [;
+        "Las montañas te impiden el paso.";
+    ],
+    siXesMinX [;
+        "Un gran barranco impide que el deslizador avance.";
+    ],
+    siYesMinY [;
+        "Las montañas bloquean la ruta.";
+    ],
+    siYesMaxY [;
+        "Las montañas hacen imposible el avance.";
+    ],
+;
+
+Ente deslizador "Deslizador"
+class NecesitaTrajeLoc
+private
+    mapa EspacioDesierto,
+with
+    describeAlrededores [;
+	if ( self.y < 10
+          && self.x > 60 )
+	{
+		ViewImageRight( grfMontanas );
+		"Al norte y al este de tu posición, una sierra arranca hacia el este, bloqueando el paso.";
+	}
+	
+	if ( self.y < 40 ) {
+		if ( self.x <= 30 ) {
+			viewImageRight( grfMontanas );
+			"Una cadena montañosa se extiende de este a oeste, al norte de tu posición.";
+		}
+		else
+		if ( self.x <= 50 ) {
+			viewImageLeft( grfDesiertoMarciano );
+			"Al norte de tu posición, se observa un paso entre las montañas.";
+		}
+		else {
+		     viewImageRight( grfDesiertoMarciano );
+		     "Un profundo barranco se abre al norte, abriendo una profunda zanja hasta donde
+		      alcanza la vista. Al oeste, un llano se interna entre la sierra.";
+		}
+	}
+	else
+	if ( self.y < 70 ) {
+		if ( self.x < 80 ) {
+			if ( self.y < 60 ) {
+				viewImageRight( grfDesiertoMarciano );
+				"Un llano, encerrado entre montañas a este y suroeste, y barrancos al 						 este, se extiende de sur a norte hasta donde alcanza la vista.";
+			}
+			else {
+				viewImageRight( grfDesiertoMarciano );
+				"Un llano, encerrado entre montañas a este y suroeste, y barrancos al 						 este, se extiende de sur a norte hasta una gran zanja que cierra el
+				 paso.";
+			}
+		}
+		else {
+			viewImageRight( grfDunas2 );
+			"Un estrecho pasillo avanza hacia el norte, cerrado por el oeste por una gran 					 grieta, al este por las montañas, y al sur por una sierra que arranca hacia el
+			 este. Al suroeste y al norte se abren las únicas salidas.";
+		}
+	}
+	else {
+		viewImageRight( grfDesiertoMarciano );
+		"Una estrecha franja de terreno pedregoso se extiende de este a oeste, cerrado por una
+		 gran zanja al sur, montañas al este y norte. El oeste y el suroeste parece los únicos 	
+		 pasos francos.";
+	}
+    ],
+    compruebaEstasEnDestinoOrigen [;
+        if ( self.x < 10 && self.y < 10 ) {
+            "^Te encuentras en los alrededores de la cápsula de emergencia.";
+        }
+        if ( self.x < 10 && self.y > 89 ) {
+            "^Te encuentras en los alrededores de una construcción, aparentemente humana, hacia el noroeste.";
+        }
+    ],
+    nombre 'deslizador',
+    descripcion [;
+	self.describeAlrededores();
+        print "De pie sobre el deslizador ...^";
+        print "Los instrumentos indican la posición relativa a la cápsula: ";
+        print self.x, ", ", self.y, "^";
+        
+        self.compruebaEstasEnDestinoOrigen();
+        
+        "^La arena se mueve a oleadas bajo el deslizador ...";
+    ],
+    x 0,
+    y 0,
+    z 0,
+    no_puedes_ir "¿Andando? ... ¡Ni hablar!",
+    siMueve [ huboMov;
+print "kkdelavaka^";
+        if ( huboMov ) {
+            print "Manejas los mandos del deslizador ...^";
+        }
+        else
+            print "El deslizador se mece suavemente, imperceptiblemente ...^";
+            
+        self.compruebaEstasEnDestinoOrigen();
+        self.compruebaObstaculos();     
+
+	// Si es oportuno, describir
+	if ( ( self.x % 7 ) == 0   
+          || ( self.y % 7 ) == 0 )
+	{
+		print "Coordenadas: ", self.x, ", ", self.y, ".";
+		self.describeAlrededores();
+	}
+
+        return true;
+    ],
+    siObstEnc [;
+        "Frenas el deslizador en seco. Algo detiene tu camino.";
+    ],
+    compruebaObstaculos [;
+        if ( EspacioDesierto.dev_fueObst() == 0 ) {            
+            ViewImageRight( grfDunas );
+            "Un conjunto de dunas discurre de este a oeste.";
+        }
+        else
+        if ( EspacioDesierto.dev_fueObst() == 1 ) {
+            "Una gran zanja discurre de norte a sur.";
+        }
+        else
+        if ( EspacioDesierto.dev_fueObst() == 2 ) {
+            "Una gran hondonada abarca una gran extensión en todas direcciones.";
+        }
+        else
+        if ( EspacioDesierto.dev_fueObst() == 3 ) {
+            ViewImageRight( grfMontanas );
+            "Una cadena montañosa se extiende hacia el este todo lo que tu vista puede abarcar.";
+        }
+        else
+        if ( EspacioDesierto.dev_fueObst() == 4 ) {
+            "Una sierra montañosa penetra desde el oeste, aunque muere en algún punto cercano, al este.";
+        }                                
+    ],
+    antes [;
+        ir:
+            rfalse;
+        bajar: <<salir>>;
+        entrar: "Ya estás en el deslizador ... ";  
+        salir:  if (self.y > 95 && self.x < 5 )
+                { 
+                    print "Bajas del deslizador ...^"; jugadorA( AREA_DEL_TUNEL, 2 );
+                    move deslizadorFalso to AREA_DEL_TUNEL;                    
+                    rtrue;
+                }
+                else  
+                if ( self.y < 5 && self.x < 5 ) {
+                    print "Bajas del deslizador ...^"; jugadorA( AREA_CAPSULA, 2 );
+                    move deslizadorFalso to AREA_CAPSULA;
+                    rtrue;
+                }
+                else "¿En medio de la nada?, ¡ni hablar!";
+    ],
+    has luz
+;
+
+Object obst1
+class Array
+private
+    dimx 5, ! num obstáculos
+    dimy 6, !  6 siempre es el tamaño de un obstáculo
+    elementos
+        ! primer obstáculo - barranco de este a oeste debajo de la base
+        0 89 ! en X
+        70 79 ! en y
+        0 1 ! en Z
+        
+        ! Segundo obstáculo - continuación del barranco anterior hacia el sur
+        80 89 ! en X
+        40 69 ! en y
+        0 1 ! en Z        
+        
+        ! tercer obstáculo - el barranco que justo tapa la base
+        15 45 ! en X
+        80 94 ! en y
+        0 1 ! en Z        
+                           
+        ! cuarto obstáculo - montañas al este cercanas a la cápsula
+        80 99 ! en X
+        10 19 ! en y
+        0 1 ! en Z        
+        
+        ! quinto obstáculo - montañas encima de la cápsula
+        0 49 ! en X
+        40 49 ! en y
+        0 1 ! en Z        
+;        

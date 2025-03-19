@@ -1,0 +1,407 @@
+!% -SD
+!% +language_name=Spanish
+
+! Pacifico
+! Comenzado el 20 de Agosto de 2007 -> -315365.52
+! Terminado(para pulido), el 17 de diciembre de 2016 -> -306039
+
+Constant Story "^Error de Copia^";
+Constant Headline "Una pequeña odisea espacial interactiva.^^";
+Constant AMUSING_PROVIDED;
+Constant NO_SCORE;
+Constant ADMITIR_COMANDO_SALIDAS;
+Release 2;
+
+[ Amusing;
+    clearMainWindow();
+    s_emph();
+    print "Error de Copia";
+    s_normal();
+    s_underline();
+    print "    (Una pequeña odisea espacial interactiva)";
+    s_normal();
+
+    print "^^Escrita con la ayuda de:
+            ^ - Lenguaje de aventuras: InformATE! (por Graham Nelson, traducido y adaptado por Zak),
+            ^ - Entorno de desarrollo: Jif (por Alessandro Schillaci y Mapache)
+            ^ - Multimedia: SMW basado en SGW (por Alessandro Schillaci, Vincenzo Scarpa, Paolo Maroncelli)
+            ^ - Generador de código: txtMap.^^";
+
+    print "Mil gracias a la inestimable ayuda de Jenesis como Betatester. Cualquier
+           error que encuentres, en cualquier caso, sólo es achacable al autor.^";
+
+    print "^Esta aventura conversacional me rondaba la cabeza desde hacía bastante tiempo.
+           En algún momento, leí una historia sobre cómo se colonizarían otros planetas, incluso terraformándolos,
+           mediante la ayuda de robots que serían capaces de construir copias de sí mismos para abordar el trabajo.^^
+           Con una sonrisa, se me ocurrió, no se por qué, que podría pasar que los robots perdieran el control de cuántas
+           copias de sí mismos hacían, y lo que podría pasar en ese caso.^^";
+
+    print "Strou Ban no es más que una pequeña conversión de ~Bjarne Stroustrup~, el inventor de C++.^^";
+
+    print "La primera vez que hablé públicamente de esta aventura, fue en una entrevista que me hizo
+           Urba con motivo de algún concurso. Finalmente, después de varios años, la he hecho.^^";
+
+    print "Esta aventura fue diseñada para presentarse a la FIComp, que terminó de aceptar participantes el 31 de Agosto,
+           y se empezó en la fecha estelar indicada en el comienzo de la aventura (que puede convertirse empleando una calculadora
+           de fechas estelares de Star Trek).^^";
+
+    print "No hay nada sobre fechas estelares realmente desarrollado, así que escogí la referencia de Star Trek, pues
+           en esta situación es tan buena como cualquier otra.^^";
+
+    s_underline();
+    print "^http://caad.es/baltasarq/^";
+    s_normal();
+
+
+    print "^^^Relato escrito durante el verano de 2007.^Relato mejorado durante el otoño 2008.^^";
+    s_underline();
+    print "...por Baltasar, el arquero.
+           ^
+           ^    baltasarq@@gmail.com^^";
+    s_normal();
+];
+
+Include "Parser";
+Include "infglk";
+Include "smw";
+
+Object LibraryMessages
+with
+    before [;
+        if ( action == ##miscellany && lm_n == 4 ) {
+               s_emph();
+               print "¡Estás perdido!^";
+               s_normal();
+               rtrue;
+        }
+    ],
+;
+
+Include "VerbLib";
+Include "SpanishG";
+Include "Array";
+Include "Escr";
+Include "Responde";
+Include "Pensamientos";
+Include "Puertas";
+Include "Decorado";
+Include "Cortos";
+Include ">triespacio-i6sp.h";
+Include "Character";
+
+Include "nautica";
+
+[ mueresAsfixiado;
+    deadflag = 1;
+
+    print "^...^^Es una sensación más que otra cosa.";
+    wait( "^^...^" );
+    wait( "...^^" );
+    print "Notas como te vas quedando sin aire... cada vez
+           te cuesta más respirar. Caes al suelo, boqueando entre estertores.^";
+];
+
+class Habitacion
+with cant_go [; print "No puedes ir por ahí.^"; <<salidas>>; ]
+;
+
+class Localidad
+class Habitacion
+has light;
+
+class NaveEspacial
+class Localidad
+with
+    cant_go [; print "Recuerda moverte hacia proa, popa, babor, estribor.^";
+                    return self.Habitacion::cant_go();
+    ]
+;
+
+class Objeto;
+
+class ObjetoEstatico
+class Objeto
+has scenery;
+
+Object Limbo;
+
+Include ">errorDeCopia-i6sp.bli";
+Include ">pacifico-i6sp.inf";
+Include ">base-i6sp.inf";
+Include ">trirreno-i6sp.inf";
+Include ">adriatico-i6sp.inf";
+Include ">desierto-i6sp.inf";
+Include ">personajesErrorDeCopia-i6sp.inf";
+
+
+[ Initialise;
+    ! Configurar los gráficos
+    initializeSMW( 0 );
+
+    ! Preparar los decorados
+    inicializarDecorados();
+
+    ! Preparar las puertas
+    inicializarConexiones();
+    ! Notificaciones y configuraciones
+    lookmode = 2;                                ! describe siempre,
+    notify_mode = 0;                          	 ! y no notifiques la puntuación,
+
+    ! Intro
+    viewImageCenter( grfCarguero );
+	print "(Los jugadores inexpertos deben teclear 'AYUDA'
+	        en el prompt: '>'.^Pulsa ENTER cuando veas: '...'.
+			Pulsa 'Q' para saltarte las secuencias tecleadas.)";
+	wait( "^^" );
+	clearMainWindow();
+    print "^";
+    print (s_bold) "Carguero ~Pacífico~^";
+    print (s_underline) "   Error de Copia - Una pequeña odisea espacial interactiva^^";
+
+    print "¿Deseas ver la introducción? ";
+
+    if ( YesOrNo() ) {
+        clearMainWindow();
+        s_fixed();
+        mensajeConsolaInicio.visualiza();
+        s_normal();
+        clearMainWindow();
+        print "Despiertas... de mala manera... como siempre después de la criogenia. ";
+        wait();
+        print "Miras a tu alrededor.^Sólo tú estás despierto... los demás siguen durmiendo.";
+        wait();
+        print " Escuchas la llamada por los altavoces ocultos en la vaina criogénica.^";
+
+        consolaPacifico.say( "Aviso de código alfa -- sólo para el comandante" );
+        consolaPacifico.say( "Detectada llamada de emergencia en planeta cercano." );
+        consolaPacifico.say( "Acuda al puente a la máxima brevedad." );
+
+        print "Te levantas... como puedes. Te desperezas mientras intentas
+               recuperar de tu memoria, como si
+               la nave fuera tan grande, que el puente está en el tercer nivel.^";
+        wait();
+    }
+
+    ! preparar
+    pasar_a_ConexionesNauticas();
+    clearMainWindow();
+
+    ! El jugador
+    ChangePlayer( Rasatlab );
+	location = SALA_DE_CRIOGENIA;
+	startTimer( OBJ_MISIL, TURNOS_PACIFICO_SE_DESTRUYE );
+];
+
+! Déjalo, sólo es decorado     ------------------------------------------------
+
+class DecoradoBase
+class Decorado
+with
+    before [;
+        Examine:
+            rfalse;
+        Smell, Touch, Taste:
+            "Nada de especial.";
+        Take, subir, Turn, Push, Pull, Empty:
+            "¿Crees que eso podría servir realmente para algo?";
+        Search, GoIn:
+            "No serviría de nada.";
+        default:
+            "Me temo que no puedes hacer eso.";
+    ],
+    react_before [;
+        Touch, Taste, Smell:
+            if ( noun == u_obj ) {
+                "Cómo vas a hacer eso... ¡No puedes llegar hasta el cielo!";
+            }
+    ]
+;
+
+class DecoradoNaveEspacial(28)
+class DecoradoBase
+with
+    descParedes
+        "Las paredes son lisas y sin ninguna marca aparente.",
+    describe
+        'paredes' [; return self.descParedes; ] G_FEMENINO + G_PLURAL
+        'pared'   [; return self.descParedes; ] G_FEMENINO
+        'nave'    "La misma vieja conocida de siempre." G_FEMENINO
+        'puerta'  "Esto está lleno de puertas neumáticas, que comunican las cámaras entre sí." G_FEMENINO
+;
+
+class DecoradoBaseLoc(20)
+class DecoradoBase
+with
+    descParedes
+        "Las paredes son lisas y sin ninguna marca aparente, de la misma resina plástica de la que está hecho todo.",
+    describe
+        'paredes' [; return self.descParedes; ] G_FEMENINO + G_PLURAL
+        'pared'   [; return self.descParedes; ] G_FEMENINO
+        'base'    "Muy blanca y limpia, aunque polvorienta." G_FEMENINO
+        'puerta'  "Esto está lleno de puertas neumáticas, que comunican las estancias entre sí." G_FEMENINO
+;
+
+[ inicializarDecorados muestraNum numNave numBase;
+    numNave = inicializarDecoradosNaveEspacial();
+    numBase = inicializarDecoradosBaseLoc();
+
+    if ( muestraNum ) {
+        print "^Núm. decorados Nave Espacial: ", numNave,
+              " remanentes: ", DecoradoNaveEspacial.remaining(), "^"
+        ;
+
+        print "^Núm. decorados BaseLoc: ", numBase,
+              " remanentes: ", DecoradoBaseLoc.remaining(), "^"
+        ;
+
+        wait();
+        clearMainWindow();
+    }
+];
+
+[ inicializarDecoradosNaveEspacial x dec num;
+    num = 0;
+
+    objectloop ( x ofclass NaveEspacial ) {
+        dec = DecoradoNaveEspacial.create();
+        move dec to x;
+        num++;
+    }
+
+    return num;
+];
+
+[ inicializarDecoradosBaseLoc x dec num;
+    num = 0;
+
+    objectloop ( x ofclass BaseLoc ) {
+        dec = DecoradoBaseLoc.create();
+        move dec to x;
+        num++;
+    }
+
+    return num;
+];
+
+class Narracion
+class Escritura
+with
+	pausaLetra 1,
+    pausaMensaje 5,
+	volumen SMW_VOLUME_LOW,
+	sonidoLetra sndTecla,
+	sonidoMensaje Nothing,
+	visualiza [;
+		s_fixed();
+		self.escritura::visualiza();
+		wait( "...^" );
+		s_normal();
+	]
+;
+
+Narracion mensajeConsolaInicio
+private
+    elementos
+        "Ordenador de abordo -- Carguero espacial ~Pacífico~"
+        "Fecha estelar: -315365.52"
+        "Restaurando nivel operativo INIT 3 -- despertando sistemas."
+        ""
+        "Atmósfera en cabina -- depurando    -- OK"
+        "Sistemas de navegación manual       -- OK"
+        "Sistemas de comunicaciones manuales -- OK"
+        "Sistemas calefactores               -- OK"
+        "Autochequeo                         -- OK"
+        "Nivel operativo 3 alcanzado -- todos los sistemas trabajando correctamente."
+        ""
+        "Recibida llamada de socorro del planeta XRJ43."
+        ""
+        "Protocolo/Directiva 6-1A prevalece sobre orden de derrota hacia destino."
+        "Desconectando piloto automático."
+        "Desviando el rumbo hacia el planeta XRJ43."
+        ""
+        "Protocolo/Directiva 6-1A catalogada nivel Alfa -- secreto."
+        "Despertando sólo al capitán"
+;
+
+[ayudaSub;
+    print "^Las órdenes siguientes son básicas y pueden encontrarse
+      en casi cualquier aventura conversacional. El jugador
+      puede tratar siempre de hacer otras acciones.^^"
+    ;
+    s_fixed();
+    print "^
+     ayuda                 -   Esta ayuda.^
+     n, s, e, o            -   Moverse en tierra según los puntos cardinales.^
+     proa, popa, estribor, babor
+                           -   Moverse en naves según puntos náuticos.^
+     ex, examinar x        -   Da una descripción de x.^
+     examinarme, xme       -   Información sobre ti y sobre tu misión.^
+     hablar con y          -   Permite comunicarse con y, si está presente.^
+     coge x, deja x        -   x pasa a ser o deja de ser llevado.^
+     i, inventario         -   Da una lista de los objetos llevados.^
+     Dar x a y             -   Ofrece el objeto x al personaje y.^
+     consola, selecciona x -   Selecciona la opción x en un ordenador^
+     pulsa primer boton,^
+     pulsa <x> boton       -   Pulsa el botón deseado (x) en un ascensor^
+     ^^"
+    ;
+    s_normal();
+    print "Por Baltasar, el Arquero.
+     ^^
+      Mándame tus comentarios a: baltasarq@@64gmail.com
+      ^^
+      Tú eres...
+    ^";
+    <<Examine player>>;
+];
+
+[contarSub;
+    if ( noun has pluralname ) {
+        if ( noun has female )
+                "Más de una, seguro...";
+        else    "Más de uno, seguro...";
+    }
+    else {
+        if ( noun has female )
+                "Una.";
+        else    "Uno.";
+    }
+];
+
+Extend 'cuenta' first
+    * noun -> contar
+;
+
+Verb 'selecciona'
+    * 'a//'/'la' number -> SetTo
+    * 'opcion' number -> SetTo
+    * 'la' 'opcion' number -> SetTo
+    * number -> SetTo
+    * topic -> SetTo
+;
+
+Extend 'habla' replace
+      * 'con' creature -> Tell
+      * 'a//' creature -> Tell
+      * 'al' creature -> Tell
+;
+
+Verb 'oprime' = 'empuja';
+VerboIrregular "oprime" with infinitivo "oprimir";
+
+Verb 'empalma' = 'ata';
+Verb 'lija' 'rasca' = 'frota';
+
+Extend 'ata' last
+    * noun 'y//' noun -> Tie
+    * noun 'con' noun -> Tie
+    * noun 'al' noun -> Tie
+;
+
+Verb meta 'ayuda' 'pistas'
+    * -> ayuda
+;
+
+Extend 'pulsa' last
+    * noun number -> Push
+;

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<Mapa >
+
+<Locs >
+
+<Loc >
+<Nombre>Almacén</Nombre>
+<Desc>
+La pequeña estancia está rodeada de estanterías, en la que se agolpan varios objetos, de todos los tipos. Puedes ver una palanca, una llave inglesa, un destornillador, una linterna, y un martillo. Un pequeño armario se sitúa sobre una de las estanterías.</Desc>
+<ESTE>Encrucijada</ESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Camarote del comandante</Nombre>
+<Desc>
+Un catre, una mesilla, un escritorio y un gran armario son los muebles de esta estancia, la más amplia de todas, si se tiene en cuenta que está dedicada a una sola persona. Sobre el escritorio, puedes observar una placa metálica. Es posible volver al túnel al oeste. Al contrario que en el resto de estancias, en ésta hay una ventana.</Desc>
+<OESTE>Túnel de comando</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Cocina</Nombre>
+<Desc>
+La habitación está llena de menaje, acumulado sobre el gran mueble que aloja los fogones eléctricos y el horno.</Desc>
+<OESTE>Pasillo de vivienda</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Codo en el túnel</Nombre>
+<Desc>
+El túnel plástico gira de este a sur en este punto. Hacia el sur, se observa una cierta penumbra por el comienzo de algunas estructuras que no puedes distinguir realmente bien desde aquí.</Desc>
+<SUR>Túnel de comando</SUR>
+<OESTE>Túnel de servicio</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Despacho</Nombre>
+<Desc>
+El despacho contiene unos pequeños escritorios individuales, así como un atril. Es posible volver al pasillo, hacia el este.</Desc>
+<ESTE>Fin del pasillo de vivienda</ESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Dormitorios</Nombre>
+<Desc>
+En esta estancia sólo se observan literas, de hasta tres alturas. En medio de cada par, se aprecia una pequeña mesilla. Es posible volver hacia el este.</Desc>
+<ESTE>Pasillo de vivienda</ESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Encrucijada</Nombre>
+<Desc>
+El túnel permite aquí el paso hacia el oeste, mientras abre salidas hacia el este y el sur. Hacia el este, el túnel es luminoso, lo que significa que no hay construcciones en esa parte. Hacia el sur, el túnel es bastante oscuro.</Desc>
+<SUR>Pasillo de vivienda</SUR>
+<ESTE>Túnel de servicio</ESTE>
+<OESTE>Almacén</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Fin del pasillo de vivienda</Nombre>
+<Desc>
+El pasillo termina al sur en la más absoluta oscuridad. Sendas aberturas continúan al este y al oeste.</Desc>
+<NORTE>Pasillo de vivienda</NORTE>
+<ESTE>Salón</ESTE>
+<OESTE>Despacho</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Invernadero</Nombre>
+<Desc>
+El invernadero está atestado de plantas, que parecen extremadamente cuidadas y alineadas contra cada pared, a cada lado de un pasillo central. Unas mangueras se distribuyen por el suelo, que supones se corresponden con el riego automatizado. La estructura es del mismo material que el resto de la base, aunque en este caso, es mucho más transparente. Grandes chorros de luz (cegadora, con respecto al resto de la base), inundan la estancia, lo que sin duda es bien aprovechado por las plantas.</Desc>
+<OESTE>Túnel del Invernadero</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Pasillo de vivienda</Nombre>
+<Desc>
+Al este y el oeste hay sendas aberturas. No hay marcas de ningún tipo, a excepción de un pequeño cartel anunciador. El pasillo continúa en la penumbra, hacia el sur.</Desc>
+<NORTE>Encrucijada</NORTE>
+<SUR>Fin del pasillo de vivienda</SUR>
+<ESTE>Cocina</ESTE>
+<OESTE>Dormitorios</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Sala de reuniones</Nombre>
+<Desc>
+Una gran mesa central, rodeada de butacas, preside esta sala, que cuenta con un encerado en una de sus paredes.</Desc>
+<ESTE>Túnel de comando</ESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Salón</Nombre>
+<Desc>
+Un amplia estancia, llena de sillones de armazón plástico, cubiertos de tela beige. Entre varios sillones enfrentados, se sitúan algunas mesas también plásticas.</Desc>
+<OESTE>Fin del pasillo de vivienda</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Túnel de comando</Nombre>
+<Desc>
+Un pequeño letrero abre este túnel, que continúa hacia el sur mientras dos estancias se abren a este y oeste.</Desc>
+<NORTE>Codo en el túnel</NORTE>
+<SUR>Túnel del Invernadero</SUR>
+<ESTE>Camarote del comandante</ESTE>
+<OESTE>Sala de reuniones</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Túnel de mantenimiento</Nombre>
+<Desc>
+Un nuevo túnel continúa de norte a sur, sin otras aberturas. Hacia el norte se aprecia una fuerte claridad, mientras el sur está en penumbra.</Desc>
+<NORTE>Túnel del Invernadero</NORTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Túnel de servicio</Nombre>
+<Desc>
+El túnel de servicio tiene una entrada al norte, a la vez que continúa al este y al oeste. Se trata de una estructura plástica semitransparente, reforzada con cables de acero cruzados, lo que le da un aspecto un tanto endeble, aunque aprovecha totalmente la luz solar para su iluminación. Ocasionalmente, el viento levanta granos de arena en el exterior, que se estrellan contra la cubierta. El suelo es de algún tipo de resina plástica, también semitransparente.</Desc>
+<ESTE>Codo en el túnel</ESTE>
+<OESTE>Encrucijada</OESTE>
+</Loc>
+
+
+<Loc >
+<Nombre>Túnel del Invernadero</Nombre>
+<Desc>
+Hacia el oeste se abre una estructura que parece ser un invernadero, de la que emanan grandes torrentes de luz. Hacia el norte y sur continúa este túnel. Un aviso pende de la pared.</Desc>
+<NORTE>Túnel de comando</NORTE>
+<SUR>Túnel de mantenimiento</SUR>
+<ESTE>Invernadero</ESTE>
+</Loc>
+
+</Locs>
+
+</Mapa>
+

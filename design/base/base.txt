@@ -1,0 +1,238 @@
+
+Almacén
+
+La pequeña estancia está rodeada de estanterías, en la que se agolpan varios objetos, de todos los tipos. Puedes ver una palanca, una llave inglesa, un destornillador, una linterna, y un martillo. Un pequeño armario se sitúa sobre una de las estanterías.
+
+> ex estantería
+No tiene demasiado de especial. Son de color blanco, el mismo que las paredes. Probablemente sean del mismo material.
+
+> ex armario
+Se trata de un pequeño panel que se puede deslizar mediante un pequeño pomo.
+
+> coge palanca
+Cogida.
+
+> ex palanca
+Se trata de una palanca de acero inoxidable.
+
+> coge llave inglesa
+Cogida.
+
+> ex llave inglesa
+Pues sí, una llave inglesa.
+
+> coge destornillador
+Cogido.
+
+> ex destornillador
+Un destornillador de punta plana y mango amarillo.
+
+> coge linterna
+Cogida.
+
+> ex linterna
+De plástico negro, con pantalla de cristal. Tiene un pequeño compartimento para una batería.
+
+> coge martillo
+Cogido.
+
+> ex martillo
+Es un martillo sin uñas.
+
+> coge batería
+Cogida.
+
+> ex batería
+Una batería estándar de Litio-Iones.
+
+> e a Encrucijada
+
+.finloc
+
+Codo en el túnel
+
+El túnel plástico gira de este a sur en este punto. Hacia el sur, se observa una cierta penumbra por el comienzo de algunas estructuras que no puedes distinguir realmente bien desde aquí.
+
+> o a Túnel de servicio
+> s a Túnel de comando
+.finloc
+
+Túnel de servicio
+
+El túnel de servicio tiene una entrada al norte, a la vez que continúa al este y al oeste. Se trata de una estructura plástica semitransparente, reforzada con cables de acero cruzados, lo que le da un aspecto un tanto endeble, aunque aprovecha totalmente la luz solar para su iluminación. Ocasionalmente, el viento levanta granos de arena en el exterior, que se estrellan contra la cubierta. El suelo es de algún tipo de resina plástica, también semitransparente.
+
+> e a Codo en el túnel
+> o 
+
+Encrucijada
+
+El túnel permite aquí el paso hacia el oeste, mientras abre salidas hacia el este y el sur. Hacia el este, el túnel es luminoso, lo que significa que no hay construcciones en esa parte. Hacia el sur, el túnel es bastante oscuro.
+
+> o al Almacén
+> s
+
+Pasillo de vivienda
+
+Al este y el oeste hay sendas aberturas. No hay marcas de ningún tipo, a excepción de un pequeño cartel anunciador. El pasillo continúa en la penumbra, hacia el sur.
+
+> ex cartel
+El cartel indica: ~Pasillo de vivienda~.
+
+> e a Cocina
+> o a Dormitorios
+> s
+
+Fin del pasillo de vivienda
+
+El pasillo termina al sur en la más absoluta oscuridad. Sendas aberturas continúan al este y al oeste.
+
+> e a Salón
+> o
+
+Despacho
+
+El despacho contiene unos pequeños escritorios individuales, así como un atril. Es posible volver al pasillo, hacia el este.
+
+> ex escritorios
+Son escritorios de una pieza, de resina plástica.
+
+> ex atril
+Se trata de un atril metálico, un tanto pequeño.
+
+
+.finloc
+
+Salón
+
+Un amplia estancia, llena de sillones de armazón plástico, cubiertos de tela beige. Entre varios sillones enfrentados, se sitúan algunas mesas también plásticas.
+
+> ex sillones
+Una fina capa de polvo lo cubre todo.
+
+> ex mesas
+Demasiado frágiles, parecen romperse al contacto de los dedos.
+
+> o a Fin del pasillo de vivienda
+
+.finloc
+
+Cocina
+
+La habitación está llena de menaje, acumulado sobre el gran mueble que aloja los fogones eléctricos y el horno.
+
+> ex menaje
+Pues sí, lo hay de todo tipo.
+
+> ex fogones
+Sobre el mueble. No parecen haber sido utilizados nunca.
+
+> ex mueble
+El mueble de cocina aloja los fogones y el horno.
+
+> ex horno
+Empotrado dentro del gran horno, exteriormente parece nuevo.
+
+> o a Pasillo de vivienda
+
+.finloc
+
+Dormitorios
+
+En esta estancia sólo se observan literas, de hasta tres alturas. En medio de cada par, se aprecia una pequeña mesilla. Es posible volver hacia el este.
+
+> ex literas
+Pequeñas camas apiladas en hasta tres alturas.
+
+> ex mesillas
+Mesas donde dejar pequeños objetos, sin ningún valor en particular.
+
+> e al Pasillo de vivienda
+
+.finloc
+
+Camarote del comandante
+
+Un catre, una mesilla, un escritorio y un gran armario son los muebles de esta estancia, la más amplia de todas, si se tiene en cuenta que está dedicada a una sola persona. Sobre el escritorio, puedes observar una placa metálica. Es posible volver al túnel al oeste. Al contrario que en el resto de estancias, en ésta hay una ventana.
+
+> ex placa
+Se puede leer: ~Comandante~ en ella.
+
+> ex escritorio
+Es un gran escritorio, hecha de la misma resina blanca que el resto de muebles. Al contrario que otras mesas, ésta parece muy sólida.
+
+> ex armario ropero
+Con dos paneles deslizantes, ocupa toda una pared de la habitación.
+
+> ex catre
+Resulta estar empotrado contra otra de las paredes.
+
+> ex ventana
+No es posible abrirla, pero proporciona luz a toda la estancia. No se aprecia nada interesante, más que desierto, al mirar por ella.
+
+> o a Túnel de comando
+
+.finloc
+
+Sala de reuniones
+
+Una gran mesa central, rodeada de butacas, preside esta sala, que cuenta con un encerado en una de sus paredes.
+
+> ex mesa central
+Una gran mesa de resina plástica, parece muy resistente.
+
+> ex butacas
+Como siempre, hechas de resina plástica, con tela beige en su parte delantera.
+
+> ex encerado
+Se trata de una pizarra clásica, lo que quizás rompe un poco con el aire moderno circundante. No encuentras tizas para utilizarla.
+
+> e a Túnel de comando
+
+.finloc
+
+
+Túnel de comando
+
+Un pequeño letrero abre este túnel, que continúa hacia el sur mientras dos estancias se abren a este y oeste.
+
+> ex letrero
+Reza: ~Túnel de comando~.
+
+> norte hacia Codo en el túnel
+> este a Camarote del comandante
+> oeste a Sala de reuniones
+> s
+
+Túnel del Invernadero
+
+Hacia el oeste se abre una estructura que parece ser un invernadero, de la que emanan grandes torrentes de luz. Hacia el norte y sur continúa este túnel. Un aviso pende de la pared.
+
+> ex aviso
+Señala hacia el oeste e indica: ~Invernadero~, hacia el norte: ~Túnel de comando~, y hacia el sur, que reza: ~Mantenimiento~.
+
+> e a Invernadero
+
+> s
+
+Túnel de mantenimiento
+
+Un nuevo túnel continúa de norte a sur, sin otras aberturas. Hacia el norte se aprecia una fuerte claridad, mientras el sur está en penumbra.
+
+.finloc
+
+Invernadero
+
+El invernadero está atestado de plantas, que parecen extremadamente cuidadas y alineadas contra cada pared, a cada lado de un pasillo central. Unas mangueras se distribuyen por el suelo, que supones se corresponden con el riego automatizado. La estructura es del mismo material que el resto de la base, aunque en este caso, es mucho más transparente. Grandes chorros de luz (cegadora, con respecto al resto de la base), inundan la estancia, lo que sin duda es bien aprovechado por las plantas.
+
+> o a Túnel del Invernadero
+
+> ex mangueras
+Supones que transportan agua para el alimento de las plantas.
+
+.finloc
+
+
+
+
+
+

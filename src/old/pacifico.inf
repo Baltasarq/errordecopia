@@ -1,0 +1,643 @@
+! generado por INFORMATE@txtMap, v0.2/ v0.41 20070517
+! Mon Aug 20 20:50:07 2007
+
+! ================= MISIL ===============================================
+! Este misil se carga a la pacífico y te obliga a meterte en una cápsula.
+
+Constant TURNOS_PACIFICO_SE_DESTRUYE 15;
+Constant TURNOS_MISIL_IMPACTA 20;
+Constant TURNOS_CAPSULA_ANTES_FIN_OXIGENO 50;
+
+PensamientoFugaz iraPuente
+with
+    ideaFugaz "¡Debo acudir al puente de mando!"
+;
+
+PensamientoFugaz esUnMisil
+with
+    ideaFugaz "¡Es ... es ... es un misil!¡Contra un carguero!¡No puedo creerlo!"
+;
+
+
+object OBJ_MISIL "misil" limbo
+private
+    impacto false,
+with
+    fueImpactado [;
+        return self.impacto;
+    ],
+    tiempo_restante 20,
+    hacerSonarAlarmas [;
+        playSound(chan1, sndAlarma, 1, VOLUME_NORMAL );
+        playSound(chan2, sndSirena, 1, VOLUME_HIGH );
+    ],
+    tiempo_agotado [;
+        if ( ~~( self.impacto ) ) {
+            self.impacto = true;
+            
+            if ( localizacion == PUENTE_DE_MANDO 
+                              or COMANDO_DEL_NAVEGANTE
+                              or COMANDO_DEL_PILOTO )
+            {
+                print "^Un destello llama tu atención a través del ventanal ...^";
+                esperarTecla();
+                esUnMisil.piensa( jugador );
+                esperarTecla();
+                print "El misil se acerca cada vez más ... ¡va a impactar con la ~Pacífico~!^";
+                esperarTecla();
+                print "No hay nada que hacer ... el carguero no tiene sistemas de defensa, al ser una nave comercial,
+                       ni es capaz de maniobrar para esquivarlo.^";
+                esperarTecla();
+                print "Comienzan a sonar las alarmas ... ¡y el misil impacta!^";
+                self.hacerSonarAlarmas();
+                rtrue;
+            } else {
+                print "^Repentinamente, la nave sufre una grave sacudida que a punto esta de
+                       tirarte al suelo. Todas las alarmas de la nave están sonando.^";
+                self.hacerSonarAlarmas();
+                iraPuente.piensa( jugador );
+                print "^";
+            }
+            
+            arrancarReloj( self, TURNOS_PACIFICO_SE_DESTRUYE );
+        } else {
+            banderafin = 1;
+            "^^Con un enrome y desgarrador gemido final, la ~Pacífico~ y su carga se destruyen en el espacio.^
+             Sólo puedes lamentar no entender nada de lo que ha pasado, antes de que la explosión acabe con tu vida.";
+        }
+    ]
+;
+
+
+! ================= ASCENSOR ==================
+
+NaveEspacial ASCENSOR "Ascensor tubular"
+with
+    nombre 'ascensor' 'elevador',
+    enNivel 0,
+    descripcion "^^El ascensor es un tubo que recorre, en vertical, los tres niveles de la nave. La zona de residencia y control, en la que te encuentras, no es tan grande, recuerdas, comparada con la zona de carga, que es totalmente independiente.
+                 Es reducido, a la vez que cómodo y silencioso.
+                 Una botonera permite su manejo.",
+    salirA [ loc;
+        print "^Sales del ascensor ...^";
+        jugadorA( loc, 2 );
+        rtrue;
+    ],
+    ponEnNivelPorLocalidad [ loc;
+        if ( loc == PASILLO_DE_SERVICIO_DEL_NIVEL_0 ) {
+            self.enNivel = 0;
+        }
+        else
+        if ( loc == PASILLO_DE_SERVICIO_NIVEL_1 ) {
+            self.enNivel = 1;
+        }
+        else
+        if ( loc == SALA_DE_COMUNICACIONES ) {
+            self.enNivel = 2;
+        }
+        else "<<ERROR: nivelALoc(): Nivel de ascensor imposible, loc: ", loc, 
+             " nivel:", self.enNivel, ">>";
+        
+    ],
+    nivelALocalidad [;
+         switch ( self.enNivel ) {
+            0: 
+                return PASILLO_DE_SERVICIO_DEL_NIVEL_0;
+            1: 
+                return PASILLO_DE_SERVICIO_NIVEL_1;
+            2:
+                return SALA_DE_COMUNICACIONES;
+            default:  
+                "<<ERROR: locANivel(): Nivel de ascensor imposible:", self.enNivel, ">>";
+        }
+        rfalse;
+    ],      
+    antes [;
+        ir: if ( uno == obj_n or proa_obj ) <<salir>>;
+        salir: return self.salirA( self.nivelALocalidad( localizacion ) );
+    ],
+    moverANivel [ nivel;
+        print "^Las puertas se cierran suavemente,
+               y con una leve sacudida el ascensor se pone en marcha.^";
+        self.enNivel = nivel;
+        esperarTecla();
+        print "^Las puertas se abren de nuevo.^";
+        rtrue;
+    ]
+has oculto;
+
+ObjetoEstatico botoneraAscensor "panel de control" ASCENSOR
+with
+    nombre_m 'panel' 'botonera',
+    nombre_f 'botonera',
+    genero G_FEMENINO,
+    descripcion [;
+        print "El panel indica el nivel en el que se encuentra el ascensor: ";
+        print ASCENSOR.enNivel + 1;
+        print "^Tres botones, numerados del uno al tres, se alinean verticalmente bajo el panel.^";
+    ],
+    antes [;
+        empujar: "Es necesario pulsar el botón correspondiente: botón uno, botón dos, botón tres
+                  o botón cuatro.";
+    ],
+has transparente;
+
+class Boton
+class ObjetoEstatico
+with
+    nombre 'boton' 'pulsador',
+    alNivel 0,
+    descripcion "Sí, es un botón. Definitivo.",
+    antes [;
+        empujar:
+            if ( ASCENSOR.enNivel ~= self.alNivel )
+                    return ASCENSOR.moverANivel( self.alNivel );
+            else    "No sucede nada.";
+    ]       
+;
+
+Boton boton1 "botón uno" botoneraAscensor
+with
+    alNivel 0,
+    nombre 'uno' 'primer' 'primero'
+;
+
+Boton boton2 "botón dos" botoneraAscensor
+with
+    alNivel 1,
+    nombre 'dos' 'segundo',
+;
+
+Boton boton3 "botón tres" botoneraAscensor
+with
+    alNivel 2,
+    nombre 'tres' 'tercer' 'tercero',
+;
+
+ObjetoEstatico ObjPuertasAscensor "puerta del ascensor"
+with
+    esta_en [;
+        if (localizacion == SALA_DE_COMUNICACIONES
+            or PASILLO_DE_SERVICIO_DEL_NIVEL_0
+            or PASILLO_DE_SERVICIO_NIVEL_1 )
+         {
+             rtrue;
+         }
+         rfalse;
+    ],
+    nombre_f 'puerta' 'columna' 'tubular',
+    nombre_fp 'puertas',
+    nombre_m 'ascensor' 'tubo',
+    genero G_FEMENINO,
+    descripcion [;
+        print "El tubo presenta únicamente un pulsador de llamada, y el elevador en sí.^";
+        if ( ASCENSOR.nivelALocalidad() == localizacion )
+                "Las puertas del ascensor están abiertas.";
+        else    "El ascensor no está aquí, las puertas están cerradas.";
+    ],
+    reaccionar_antes [;
+        entrar: if ( uno == Nothing ) <<entrar ObjPuertasAscensor>>;
+        ir: if ( uno == obj_s or popa_obj ) <<entrar ObjPuertasAscensor>>;
+    ],
+    antes [;
+        entrar, meterse: 
+            if ( ASCENSOR.nivelALocalidad() == localizacion ) {
+                print "Entras en el tubo del ascensor.^";
+                jugadorA( ASCENSOR, 2 );
+                rtrue;
+            }
+            else "No puedes: las puertas están cerradas.";
+    ],
+has transparente;
+
+ObjetoEstatico ObjBotonPuertasAscensor "boton de llamada" ObjPuertasAscensor
+with
+    nombre 'boton' 'pulsador' 'llamada',
+    descripcion "Se trata de un botón térmico, la presión a realizar es mínima.",
+    antes [;
+        empujar:
+            if ( ASCENSOR.nivelALocalidad() ~= localizacion ) {
+                ASCENSOR.ponEnNivelPorLocalidad( localizacion );
+                "Tras una breve espera, las puertas del ascensor se abren a ambos lados ...";
+            }
+            else "No sucede nada.";
+    ]
+;
+
+
+
+! ================= LOCALIDADES ===============
+
+
+NaveEspacial SALA_DE_CRIOGENIA "Sala de criogenia"
+with
+    descripcion
+        "La sala de criogenia contiene varias vainas en las que descansan los tripulantes de la nave.
+         Las vainas se alinean de manera radial hacia el centro de la sala. Sólo es posible ir hacia popa.",
+    al_s ALMACEN,
+;
+
+NaveEspacial ALMACEN "Almacén"
+with
+    descripcion
+        "^El almacén contiene algunos elementos útiles
+          para el gobierno y mantenimiento de la nave,
+          como herramientas y comida. Hacia proa y popa hay sendas salidas.",
+    al_s PASILLO_DE_SERVICIO_DEL_NIVEL_0,
+    al_n SALA_DE_CRIOGENIA,
+;
+
+NaveEspacial COCINA "Cocina"
+with
+    descripcion "^La cocina, con su principal componente: la máquina rehidratadora.",
+    al_o PASILLO_DE_SERVICIO_DEL_NIVEL_0,
+
+;
+
+NaveEspacial COMANDO_DEL_NAVEGANTE "Comando del Navegante"
+with
+    descripcion "^El extremo de babor del puente de mando, con el sillón de comando y la consola del piloto. Los ventanales permiten la vista de la proa y del costado de babor de la nave.",
+    al_e PUENTE_DE_MANDO,
+
+;
+
+NaveEspacial COMANDO_DEL_PILOTO "Comando del Piloto"
+with
+    descripcion "^El extremo de estribor del puente de mando, con el sillón de comando y la consola del piloto. Los ventanales permiten la vista de la proa y del costado de estribor de la nave.",
+    al_o PUENTE_DE_MANDO,
+
+;
+
+NaveEspacial CAMARA_DE_ACCESO_A_CAPSULAS "Cámara de acceso a cápsulas"
+with
+    descripcion "^Una estrecha cámara con varias vainas, en las que se encuentran algunos trajes espaciales, da paso a dos salidas: una a estribor, y otra a babor.",
+    al_s PASILLO_DE_SERVICIO_NIVEL_1,
+    al_e CAPSULA_TRIRRENO,
+    al_o CAPSULA_ADRIATICO,
+;
+
+
+PensamientoFugaz fracaso
+with
+    ideaFugaz "He fracasado ... ¡he perdido mi nave y a todos mis hombres!."
+;
+
+NaveEspacial CAPSULA_ADRIATICO "Cápsula Adriático"
+with
+    enviarAPlaneta [;
+
+        pararReloj( OBJ_MISIL );
+        esperarTecla();
+        llegadaAlPlaneta.proyeccion();
+        
+        esperarTecla();
+        fracaso.piensa( jugador );
+        esperarTecla();
+        print "^...^";
+        esperarTecla();
+        print "Resuelves descubrir el punto de donde se recibió la señal en este planeta ...^
+               ¡Si has perdido tu navío y tu tripulación tiene que ser por algo importante!^";
+        esperarTecla();
+        
+        if ( localizacion == CAPSULA_ADRIATICO ) {
+            move OBJ_DESTORNILLADOR to OBJ_PANEL_HERRAMIENTAS_ADRIATICO;  
+            
+            if ( OBJ_TRAJE notin jugador ) {
+                move OBJ_TRAJE to CAMARA_DESCOM_ADRIATICO;
+            }
+                  
+            jugador.capsula = false;
+            jugadorA( PUESTO_DE_COMANDO_ADRIATICO, 2 );
+        }
+        else {
+            move OBJ_DESTORNILLADOR to OBJ_PANEL_DE_HERRAMIENTAS;
+            
+            if ( OBJ_TRAJE notin jugador ) {
+                move OBJ_TRAJE to CAMARA_DE_DESCOMPRESION;
+            }            
+            
+            jugador.capsula = true;
+            jugadorA( PUESTO_DE_COMANDO, 2 );
+        }
+        
+        arrancarReloj( consolaCapsula, TURNOS_CAPSULA_ANTES_FIN_OXIGENO );
+    ],
+    descripcion "^El pequeño centro de mando acristalado de la cápsula es pequeño, como el resto de la misma. Los mandos se sitúan delante de tí, mientras a tu espalda se sitúa la escotilla de conexión con la nave.",
+    al_e CAMARA_DE_ACCESO_A_CAPSULAS,
+    cada_turno [;
+        if ( OBJ_MISIL.fueImpactado() ) {
+            self.enviarAPlaneta();
+        }
+    ],
+;
+
+ObjetoEstatico OBJ_DECORACION_CAPSULA "elementos inactivos de la cápsula" 
+with
+    esta_en [;
+        if ( localizacion == CAPSULA_ADRIATICO or CAPSULA_TRIRRENO ) {
+            rtrue;
+        }
+        rfalse;
+    ],
+    nombre_m 'centro' 'mando',
+    nombre_f 'consola' 'ordenador' 'abordo' 'escotilla',
+    nombre_mp 'mandos' 'controles' 'elementos' 'inactivos' 'operacionales' 'navigacionales',
+    descripcion "Los elementos navigacionales y operativos son inactivos en la cápsula.
+                 No son necesarios ahora, afortuandamente.",
+    genero G_MASCULINO + G_PLURAL
+;
+    
+        
+
+NaveEspacial CAPSULA_TRIRRENO "Cápsula Trirreno"
+with
+    descripcion "^El pequeño centro de mando acristalado de la cápsula es pequeño, como el resto de la misma. Los mandos se sitúan delante de tí, mientras a tu espalda se sitúa la escotilla de conexión con la nave.",
+    al_o CAMARA_DE_ACCESO_A_CAPSULAS,
+    cada_turno [;
+        if ( OBJ_MISIL.fueImpactado() ) {
+            CAPSULA_ADRIATICO.enviarAPlaneta();
+        }
+    ],
+;
+
+NaveEspacial PASILLO_DE_SERVICIO_DEL_NIVEL_0 "Pasillo de Servicio del Nivel 0"
+with
+    descripcion "^El pasillo de servicio es un largo y estrecho tubo, 
+                  bastante más estrecho que los de los niveles superiores,
+                  que corre de proa a popa. A babor y estribor hay dos salidas.
+                  A popa se encuentra el ascensor.",
+    al_n ALMACEN,
+    al_e COCINA,
+    al_o SALA_DE_DESCANSO,
+
+;
+
+NaveEspacial PASILLO_DE_SERVICIO_NIVEL_1 "Pasillo de servicio nivel 1"
+with
+    descripcion "^El pasillo de servicio es un largo tubo atravesado 
+                  por todo tipo de conducciones, que corre de proa a popa.
+                  Una trampilla permite el acceso a un túnel de mantenimiento.
+                  A popa se encuentra el ascensor.",
+    al_n CAMARA_DE_ACCESO_A_CAPSULAS,
+    abajo TUNEL_DE_MANTENIMIENTO,
+
+;
+
+ObjetoEstatico obj_trampilla "trampilla"
+with
+    esta_en [;
+        if ( localizacion == PASILLO_DE_SERVICIO_NIVEL_1 or TUNEL_DE_MANTENIMIENTO ) {
+            rtrue;
+        }
+        rfalse;
+    ],
+    nombre_f 'trampilla',
+    nombre_m 'tunel',
+    genero G_FEMENINO,
+    descripcion "La trampilla, en el suelo de la nave, permite el acceso,
+                 bajando, del pasillo de servicio al túnel de mantenimiento, y viceversa.",
+    antes [;
+        abrir, cerrar:
+            "Ya te encargarás de abrirla o cerrarla si te decides a atravesarla.";
+        meterse:
+            <<ir obj_abajo>>;
+    ],
+;
+
+NaveEspacial PUENTE_DE_MANDO "Puente de Mando"
+with
+    descripcion [;
+        ViewImageLeft( grfComandoPacifico, 400 );
+        "^El centro de mando de la Pacífico se extiende a estribor y 
+                  babor desde este punto, la consola principal de la nave.
+                  La consola, que abarca la práctica totalidad de los controles visibles,
+                  dispone de un teclado y una pantalla.
+                  Un poco más abajo de la altura aproximada de los ojos,
+                  comienzan los ventanales que permiten una visión amplia de la
+                  panza del carguero (la parte despresurizada que contiene la carga)
+                  y el vasto espacio por delante del mismo. 
+                  El sillón del comandante se encuentra justo delante de la consola.";
+    ],
+    al_s SALA_DE_COMUNICACIONES,
+    al_e COMANDO_DEL_PILOTO,
+    al_o COMANDO_DEL_NAVEGANTE,
+
+;
+
+ObjetoEstatico obj_sillon "sillón"
+with
+    esta_en [;
+        if ( localizacion == PUENTE_DE_MANDO or COMANDO_DEL_NAVEGANTE or COMANDO_DEL_PILOTO ) {
+            rtrue;
+        }
+        else rfalse;
+    ],
+    nombre 'sillon' 'asiento',
+    descripcion "El viejo y familiar asiento de siempre.",
+    antes [;
+        meterse:
+            "Ahora no es el momento. Estás demasiado nervioso, expectante,
+             preguntándote el motivo de que te despertara la nave.";
+    ],
+;
+
+PensamientoFugaz pensamientoEsLaTierra
+with
+    ideaFugaz "¡Parece la Tierra!"
+;
+
+ObjetoEstatico OBJ_CRISTALERA "Ventanal" PUENTE_DE_MANDO
+with
+    descripcion [;
+        ViewImageRight( grfTierra, 400 );
+        
+        print "Desde el ventanal del puente de mando ves un planeta.^";
+        pensamientoEsLaTierra.piensa( jugador );
+        print "Tiene atmósfera, agua y tierra ... la coincidencia es sorprendente.";
+        esperarTecla();
+        print "¿Pero ... cómo es posible?^^";
+        rtrue;
+    ],
+    nombre_f 'cristalera',
+    nombre_m 'cristal' 'ventanal' 'observatorio' 'observacion',
+    nombre_fp 'ventanas',
+    nombre_mp 'cristales',
+    genero G_MASCULINO,
+;
+    
+
+NaveEspacial SALA_DE_MAQUINAS "Sala de Máquinas"
+with
+    descripcion "^La sala de máquinas da servicio a la maquinaria de los motores interestelares. Hacia proa se abre una pequeña escotilla.",
+    al_n TUNEL_DE_MANTENIMIENTO,
+
+;
+
+NaveEspacial SALA_DE_COMUNICACIONES "Sala de comunicaciones"
+with
+    descripcion "^Innumerables interruptores, luces, y aparatos
+                  de procesamiento de señal llenan la sala, que se reparte a 
+                  ambos lados del pasillo central. Al final del pasillo, a popa, 
+                  se encuentra el ascensor que comunica el Puente de Mando 
+                  con el resto de la nave.",
+    al_n PUENTE_DE_MANDO,
+    al_s ASCENSOR,
+
+;
+
+NaveEspacial SALA_DE_DESCANSO "Sala de descanso"
+with
+    descripcion "^La sala de reuniones de la tripulación, con una mesa central y un banco corrido todo a su alrededor.",
+    al_o PASILLO_DE_SERVICIO_DEL_NIVEL_0,
+
+;
+
+Localidad TUNEL_DE_MANTENIMIENTO "Túnel de mantenimiento"
+with
+    descripcion "^Un angosto túnel blanco, que te obliga a mantenerte en cuclillas, se abre ante ti. Una salida se abre en la parte superior del extremo de proa, mientras hacia popa se aprecia otra escotilla.",
+    al_s SALA_DE_MAQUINAS,
+    arriba PASILLO_DE_SERVICIO_NIVEL_1,
+
+;
+
+! ================= OBJETOS ===============
+
+
+ObjetoEstatico OBJ_ABRAZADERAS "abrazaderas" PASILLO_DE_SERVICIO_NIVEL_1
+with
+    nombre 'ABRAZADERAS',
+    descripcion "Sujetan los tubos."
+has femenino nombreplural ;
+
+ObjetoEstatico OBJ_BANCO "banco" SALA_DE_DESCANSO
+with
+    nombre 'BANCO',
+    descripcion "Un banco acolchado en beige, que circunda completamente la mesa."
+has   ;
+
+ObjetoEstatico OBJ_COMIDA "comida" ALMACEN
+with
+    nombre 'COMIDA',
+    descripcion "Paquetes y paquetes de comida deshidratada. Nada útil hasta que se mete en la máquina de la cocina."
+has femenino  ;
+
+ObjetoEstatico OBJ_CONDUCCIONES "conducciones" PASILLO_DE_SERVICIO_NIVEL_1
+with
+    nombre 'CONDUCCIONES',
+    descripcion "Se trata de varios tubos y cables, que están fuertemente recogidos por abrazaderas."
+has  nombreplural ;
+
+ObjetoEstatico OBJ_HERRAMIENTAS "herramientas" ALMACEN
+with
+    nombre 'HERRAMIENTAS',
+    descripcion "Herramientas de todos los tamaños y colores. Menos mal que hay un mecánico entre la tripulación, nunca se te han dado bien los trabajos en los que debes mancharte de aceite las manos."
+has femenino nombreplural ;
+
+ObjetoEstatico OBJ_MAQUINA_REHIDRATADORA "maquina rehidratadora" COCINA
+with
+    nombre 'MAQUINA',
+    descripcion "Se trata de una máquina en la que se ubica un paquete con la comida deseada por un lado, y una pasta de colores variados aparece en un plato por el otro."
+has femenino  ;
+
+ObjetoEstatico OBJ_MAQUINARIA "maquinaria" SALA_DE_MAQUINAS
+with
+    nombre 'MAQUINARIA',
+    descripcion "Los motores están, básicamente, aquí, siendo accesibles todos los aparatos que intervienen en la transformación de la energía de las células en empuje para la mano. Siendo las células y pesadas cajas que deben introducirse en la maquinaria para alimentarla, la estampa se asemeja a aquellas locomotoras de leña del Siglo XX."
+has femenino  ;
+
+ObjetoEstatico OBJ_MESA "mesa" SALA_DE_DESCANSO
+with
+    nombre 'MESA',
+    descripcion "Se trata de una mesa circular, de inmaculado color blanco."
+has femenino  ;
+
+ObjetoEstatico OBJ_MOTORES "motores" SALA_DE_MAQUINAS
+with
+    nombre 'MOTORES',
+    descripcion "En realidad, no son visibles desde aquí, tan solo la maquinaria que los gobierna."
+has  nombreplural ;
+
+ObjetoEstatico OBJ_TUBOS "tubos" PASILLO_DE_SERVICIO_NIVEL_1
+with
+    nombre 'TUBOS',
+    descripcion "Tubos de varios colores y anchos."
+has  nombreplural ;
+
+Objeto OBJ_TRAJE "traje espacial"  CAMARA_DE_ACCESO_A_CAPSULAS
+with
+    nombre 'traje' 'espacial',
+    descripcion "Es un traje espacial estándar, con suministro de aire y blindaje.",
+    despues [;
+        vestir:
+            "Te enfundas torpemente el traje espacial, con cuidado de no romperlo o engancharlo.";
+    ]
+has prenda;
+
+ObjetoEstatico OBJ_VAINAS_TRAJES  "vainas para trajes" CAMARA_DE_ACCESO_A_CAPSULAS
+with
+    nombre_f 'vaina' 'trajes',
+    nombre_fp 'vainas' 'trajes',
+    genero G_FEMENINO + G_PLURAL,
+    descripcion [;
+        print "Son vainas vacías, preparadas para alojar trajes en su interior. Están todas vacías";
+        if ( obj_traje in CAMARA_DE_ACCESO_A_CAPSULAS ) {
+            ", excepto una, que alberga un traje";
+        }
+        ".";
+    ],
+has femenino nombreplural;
+
+PensamientoFugaz normas
+with
+    ideaFugaz
+        "No puedo hacerlo, las normas son las normas. Es un aviso sólo para el comandante.",
+;
+
+ObjetoEstatico OBJ_VAINAS_CRIOGENICAS "vainas criogénicas" SALA_DE_CRIOGENIA
+with
+    nombre_fp 'vainas' 'capsulas' 'criogenia' 'criogenicas',
+    nombre_f 'vaina' 'capsula' 'criogenia' 'criogenicas',
+    nombre_m 'miembro' 'tripulante' 'tripulacion',
+    nombre_mp 'miembros' 'tripulantes' 'tripulacion',
+    genero G_FEMENINO + G_PLURAL,
+    descripcion
+        "Todas están ocupadas, con los miembros de la tripulación, menos una, la tuya."
+    ,
+    antes [;
+        abrir, despertarOtro:
+            if ( ~~( OBJ_MISIL.fueImpactado() ) )
+                    normas.piensa( jugador );
+            else    print "Desgraciadamente, ya están muertos, como atestiguan las vainas.^";
+            "No puedes reanimar a la tripulación.";
+    ]
+has femenino nombreplural animado;
+
+CortoMetraje llegadaAlPlaneta
+with
+    descripcion
+        "Al entrar en la cápsula, el ordenador de la ~Pacífico~ cierra la compuerta trasera
+        y lanza la nave hacia el planeta ...^"
+        
+        "La aceleración es brutal ... por varios momentos, crees que no vas a conseguirlo ...^^"
+        
+        "Entonces, una gran sacudida acelera aún más la cápsula contra el planeta. "
+        
+        "Sabes que se trata de la explosión de la ~Pacífico~, tu nave, con todos sus tripulantes,
+         tus compañeros ... muertos ...^^"
+        
+        "La cápsula, sin una guía adecuada, entra descontrolada en la atmósfera del planeta ...^^"
+        
+        [; esperarTecla(); ]
+        
+        "^Finalmente, la cápsula recupera el control lo suficiente para aterrizar suavemente en
+          cuanto a su velocidad vertical. Sientes una nueva sacudida cuando la cápsula toca el suelo,
+          aún a cientos de kilómetros por hora, desgarrando el firme compuesto de arena y rocas debajo
+          del vientre de la nave.^^"
+          
+         "Poco a poco, se detiene ...^^"
+         
+         "Estás vivo, que no es poco, piensas mientras múltiples crujidos en lo que queda de la cápsula
+          anuncian su daño irreparable.^^"
+         
+         "La cápsula está varada en la superficie del planeta ... del que vino la señal de auxilio.^^"
+;

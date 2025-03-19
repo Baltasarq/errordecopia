@@ -1,0 +1,660 @@
+! generado por INFORMATE@txtMap, v0.2/ v0.41 20070517
+! Wed Aug 22 18:19:04 2007
+
+class NecesitaTrajeLoc
+with
+    compruebaTienesTraje [;
+        if ( obj_traje notin player
+          || obj_traje hasnt worn )
+        {
+            mueresAsfixiado();
+        }
+         playSound(chan1, sndRespiracion, 1, SMW_VOLUME_LOW );
+    ],
+    each_turn [;
+        self.compruebaTienesTraje();
+    ],
+;
+
+class BaseLoc
+class NecesitaTrajeLoc
+;
+
+class BaseConLuz
+class BaseLoc
+class Localidad
+;
+
+class Desierto
+class NecesitaTrajeLoc
+class Localidad
+;
+
+class BaseSinLuz
+class BaseLoc
+class Habitacion
+;
+
+
+! ================= LOCALIDADES ===============
+
+
+BaseConLuz ALMACEN_DE_BASE "Almacén"
+with
+    description "^La pequeña estancia está rodeada de estanterías, en la que se agolpan varios objetos, de todos los tipos. Puedes ver una palanca, una llave inglesa, un destornillador, una linterna, y un martillo. Un pequeño armario se sitúa sobre una de las estanterías.",
+    e_to ENCRUCIJADA,
+
+;
+
+BaseConLuz CAMAROTE_DEL_COMANDANTE "Camarote del comandante"
+with
+    description "^Un catre, una mesilla, un escritorio y un gran armario son los muebles de esta estancia, la más amplia de todas, si se tiene en cuenta que está dedicada a una sola persona. Sobre el escritorio, puedes observar una placa metálica. Es posible volver al túnel al oeste. Al contrario que en el resto de estancias, en ésta hay una ventana.",
+    w_to TUNEL_DE_COMANDO,
+
+;
+
+BaseConLuz COCINA_DE_BASE "Cocina"
+with
+    description "^La habitación está llena de menaje, acumulado sobre el gran mueble que aloja los fogones eléctricos y el horno.",
+    w_to CODO_EN_EL_TUNEL,
+
+;
+
+BaseConLuz CODO_EN_EL_TUNEL "Codo en el túnel"
+with
+    description "^El túnel plástico gira de oeste a sur en este punto, aunque hay una abertura al este.
+                  Hacia el sur, se observa una cierta penumbra por el comienzo de algunas estructuras
+                  que no puedes distinguir realmente bien desde aquí.",
+    s_to TUNEL_DE_COMANDO,
+    w_to TUNEL_DE_SERVICIO,
+    e_to COCINA_DE_BASE,
+
+;
+
+BaseSinLuz DESPACHO "Despacho"
+with
+    description "^El despacho contiene unos pequeños escritorios individuales, así como un atril. Es posible volver al pasillo, hacia el este.",
+    e_to FIN_DEL_PASILLO_DE_VIVIENDA,
+
+;
+
+BaseSinLuz DORMITORIOS "Dormitorios"
+with
+    description "^En esta estancia sólo se observan literas, de hasta tres alturas. En medio de cada par, se aprecia una pequeña mesilla. Es posible volver hacia el este.",
+    e_to PASILLO_DE_VIVIENDA,
+
+;
+
+BaseConLuz ENCRUCIJADA "Encrucijada"
+with
+    description "^El túnel permite aquí el paso hacia el oeste, mientras abre salidas hacia el este y el sur. Hacia el este, el túnel es luminoso, lo que significa que no hay construcciones en esa parte. Hacia el sur, el túnel es bastante oscuro.",
+    s_to PASILLO_DE_VIVIENDA,
+    e_to TUNEL_DE_SERVICIO,
+    w_to ALMACEN_DE_BASE,
+
+;
+
+BaseSinLuz FIN_DEL_PASILLO_DE_VIVIENDA "Fin del pasillo de vivienda"
+with
+    description "^El pasillo termina al sur en la más absoluta oscuridad. Sendas aberturas continúan al este y al oeste.",
+    n_to PASILLO_DE_VIVIENDA,
+    e_to SALON,
+    w_to DESPACHO,
+;
+
+BaseConLuz INVERNADERO "Invernadero"
+with
+    description [;
+        ViewImageRight( grfInvernadero, 400 );
+        "^El invernadero está atestado de plantas, que parecen extremadamente cuidadas
+          y alineadas contra cada pared, a cada lado de un pasillo central.
+          Unas mangueras se distribuyen por el suelo, que supones se corresponden con el riego automatizado.
+          La estructura es del mismo material que el resto de la base, aunque en este caso, es mucho más transparente.
+          Grandes chorros de luz (cegadora, con respecto al resto de la base), inundan la estancia,
+          lo que sin duda es bien aprovechado por las plantas.";
+    ],
+    w_to TUNEL_DEL_INVERNADERO,
+
+;
+
+BaseSinLuz PASILLO_DE_VIVIENDA "Pasillo de vivienda"
+with
+    description "^Al este y el oeste hay sendas aberturas. No hay marcas de ningún tipo, a excepción de un pequeño cartel anunciador. El pasillo continúa en la penumbra, hacia el sur.",
+    n_to ENCRUCIJADA,
+    s_to FIN_DEL_PASILLO_DE_VIVIENDA,
+    e_to COMEDOR_DE_BASE,
+    w_to DORMITORIOS,
+
+;
+
+BaseSinLuz COMEDOR_DE_BASE "Comedor"
+with
+    description [;
+        "Una gran estancia, vacía, excepto por lo que parece ser una barra en la que se debían servir las comidas,
+         que arranca con un gran número de bandejas apiladas.";
+    ],
+    w_to PASILLO_DE_VIVIENDA
+;
+
+ObjetoEstatico OBJ_BARRA_COMEDOR "barra" COMEDOR_DE_BASE
+with
+    name 'barra',
+    description [;
+        "Era donde se debían servir las comidas. Ahora no hay nada.";
+    ],
+has female;
+
+ObjetoEstatico OBJ_BANDEJAS_COMEDOR "bandejas apiladas" COMEDOR_DE_BASE
+with
+    name_f 'bandeja',
+    name_fp 'bandejas' 'apiladas',
+    gender G_FEMENINO + G_PLURAL,
+    description [;
+        "Cientos de bandejas apiladas en varios grupos de un par de docenas.";
+    ],
+has female;
+
+BaseSinLuz SALA_DE_REUNIONES "Sala de reuniones"
+with
+    description "^Una gran mesa central, rodeada de butacas, preside esta sala, que cuenta con un encerado en una de sus paredes.",
+    e_to TUNEL_DE_COMANDO,
+
+;
+
+BaseSinLuz SALON "Salón"
+with
+    description "^Un amplia estancia, llena de sillones de armazón plástico, cubiertos de tela beige. Entre varios sillones enfrentados, se sitúan algunas mesas también plásticas.",
+    w_to FIN_DEL_PASILLO_DE_VIVIENDA,
+
+;
+
+BaseSinLuz TUNEL_DE_COMANDO "Túnel de comando"
+with
+    description "^Un pequeño letrero abre este túnel, que continúa hacia el sur mientras dos estancias se abren a este y oeste.",
+    n_to CODO_EN_EL_TUNEL,
+    s_to TUNEL_DEL_INVERNADERO,
+    e_to CAMAROTE_DEL_COMANDANTE,
+    w_to SALA_DE_REUNIONES,
+
+;
+
+BaseSinLuz TUNEL_DE_MANTENIMIENTO_DE_BASE "Túnel de mantenimiento"
+with
+    description "^Un nuevo túnel continúa de norte a sur, sin otras aberturas. Hacia el norte se aprecia una fuerte claridad, mientras el sur está en penumbra.",
+    n_to TUNEL_DEL_INVERNADERO,
+    each_turn [;
+        wait( "^...^" );
+        print "...^Al principio, sólo es un leve movimiento";
+        wait( "...^" );
+        print "Finalmente, los ves. Descubres, no sin sorpresa, que son una especie de robots metálicos, arácnidos.^";
+        wait( "...^" );
+        print "Pero la sorpresa es aún más grande cuando se yerguen sobre sus cuatro patas traseras, y te rodean, amenazadores.^";
+        wait( "...^" );
+        print "Finalmente te hablan.";
+        robots.say( "Acompáñanos, humano." );
+        print "Adentrándote más aún en la zona de mantenimiento, girando en diversos túneles, y bajando varios niveles,
+               llegais a un largo túnel, que finalmente se abre en una gran estancia.^";
+        PlayerTo( SALA_DEL_VENERABLE, 2 );
+        rtrue;
+    ],
+;
+
+BaseConLuz TUNEL_DE_SERVICIO "Túnel de servicio"
+with
+    description "^El túnel de servicio tiene una entrada al norte, a la vez que continúa al este y al oeste. Se trata de una estructura plástica semitransparente, reforzada con cables de acero cruzados, lo que le da un aspecto un tanto endeble, aunque aprovecha totalmente la luz solar para su iluminación. Ocasionalmente, el viento levanta granos de arena en el exterior, que se estrellan contra la cubierta. El suelo es de algún tipo de resina plástica, también semitransparente.",
+    e_to CODO_EN_EL_TUNEL,
+    w_to ENCRUCIJADA,
+    n_to AREA_DEL_TUNEL,
+;
+
+Desierto AREA_DEL_TUNEL "Entrada de la base"
+with
+    s_to TUNEL_DE_SERVICIO,
+    description [;
+        ViewImageRight( grfBase, 400 );
+       "En una explanada enorme, libre de rocas, y de arena compactada,
+        se asienta una base de construcciones prefabricadas de distinto tipo.";
+    ],
+;
+
+ObjetoEstatico TUNEL_FALSO_DEC "túnel de entrada" AREA_DEL_TUNEL
+with
+    name_m 'tunel' 'construccion',
+    name_f 'entrada' 'base',
+    name_mp 'construcciones',
+    gender G_MASCULINO,
+    description [;
+        "Un túnel hecho de algún tipo de resina plástica,
+         semitransparente, lo que permite ver su interior (un pasillo transversal a la entrada),
+         perfectamente. En uno de los costados exhibe un símbolo que te resulta familiar.";
+    ],
+;
+
+
+PensamientoFugaz esDeLaEsa
+with
+    ideaFugaz "¡Se trata de la agencia europea del espacio, ¡la ESA!"
+;
+
+ObjetoEstatico SIMBOLO_DEC "símbolo familiar" AREA_DEL_TUNEL
+with
+    name 'simbolo' 'signo' 'anagrama',
+    description [;
+        print "Es un símbolo que reconoces perfectamente, debido a las lecciones de historia
+               de la navegación espacial que tuviste que aprender en la academia.^";
+        esDeLaEsa.piensa( player );
+        print "La primigenia agencia espacial tiene aquí su presencia, lo que no explica el porqué
+               del ataque ni la razón de su venida al planeta.^";
+    ],
+;
+
+
+BaseConLuz TUNEL_DEL_INVERNADERO "Túnel del Invernadero"
+with
+    description "^Hacia el oeste se abre una estructura que parece ser un invernadero, de la que emanan grandes torrentes de luz. Hacia el norte y sur continúa este túnel. Un aviso pende de la pared.",
+    n_to TUNEL_DE_COMANDO,
+    s_to TUNEL_DE_MANTENIMIENTO_DE_BASE,
+    e_to INVERNADERO,
+
+;
+
+BaseConLuz SALA_DEL_VENERABLE "Sala del venerable"
+with
+    description "^Una gran sala, que en algún momento debió ser algún tipo de taller, por las marcas que ves en el suelo
+                  y paredes. Ahora mismo, en cambio, es una estancia totalmente vacía. Y bastante sucia, por cierto.^
+                  Esta vacía, excepto por los robots, claro.^
+                  En un lugar destacado puedes ver a uno de ellos, un robot al que los demás tratan con veneración,
+                  mientras, circundándote a ti y a él, alineados hasta llegar a la pared, aparentemente inermes,
+                  están... todos los demás.
+                  En una de las paredes, sin embargo, situado de forma destacada, aparece una placa, una placa
+                  hecha con la misma resina plástica con la que está hecho todo.",
+    cant_go "Con tanto robot no eres muy capaz de adivinar dónde está la salida. Además, en cuanto haces el
+                  más mínimo ademán de moverte, los robots giran su... ¿cabeza...? hacia tí y parecen amenazadores.",
+;
+
+RespondeUnaVez descPlacaCodigo
+private
+    hecho false,
+    elementos
+        "Un rectángulo de resina plástica blanca alberga unos caracteres, como cincelados, que no puedes
+         distinguir en un principio."
+        "Fijándote bien, te das cuenta de que se trata de código fuente en C++, un milenario lenguaje de programación,
+         creado a finales del siglo XX y que mantuvo su vigencia durante los primeros decenios del XXI.
+         En una línea un tanto descolgada de las demás, que no parece tener relación con ese código en concreto,
+         puedes leer: ~// (c) Strou Ban - ESA~"
+with
+    haz_accion_final [;
+        self.hecho = true;
+    ],
+    vioElCodigo [;
+        return self.hecho;
+    ]
+;
+
+PensamientoFugaz venerableViejo
+with
+    ideaFugaz
+        "Ahora lo entiendo... el que ellos llaman el venerable es el robot que dicta las líneas de construcción,
+         el cerebro que debe durar varias generaciones de robots hasta que la construcción finalice. Sólo que éste
+         debe llevar en pie entre diez y veinte veces más tiempo de lo previsto."
+;
+
+PensamientoFugaz gaiaRobotica
+with
+    ideaFugaz
+        "En algún momento, el elevado número de robots hizo que la conciencia neuronal entretejida fuera de tal
+         magnitud que fuesen capaces... ¡de tomar conciencia de sí mismos!."
+;
+
+ObjetoEstatico elCodigo "placa del código" SALA_DEL_VENERABLE
+with
+    name_f 'placa',
+    name_m 'panel',
+    gender G_FEMENINO,
+    description [;
+        if ( venerable.seLoDijo() ) {
+            if ( ~~( descPlacaCodigo.vioElCodigo() ) ) {
+                print "Fijándote bien, te das cuenta de que los caracteres forman un antiguo código fuente en
+                 un lenguaje de programación de los albores del siglo XXI. En una de las líneas, lees sin dificultad:
+                  ~// (c) Strou Ban - ESA~^^";
+            }
+
+            print "Sabiendo que se trata de código fuente, y tras lo que te ha dicho el venerable, examinas la
+             placa con mayor atención. Siguiendo el flujo de la función que está expuesta en la placa,
+             poco a poco te das cuenta de que es la secuencia de copia de los robots. Aparentemente, los robots
+             debían haber extinguido ya completamente sus baterías, y ninguno debía estar ya funcionando, pues
+             se establece un límite máximo de 200.000 robots, estando operativos unos miles de cada vez.
+             El problema es que los robots no han dejado de producirse, a pesar de todo.^^";
+
+            print "Desmenuzando un poco más el código fuente, te das cuenta de que está escrito para un procesador
+             pequeño, de 16 bits. El misterio se aclara: la variable que debía llevar el recuento del número de robots
+             copiados sólo puede almacenar valres de hasta 65535, por lo que el límite jamás se alcanzaría. Se trata
+             de un bug de programación.^";
+            venerableViejo.piensa( player );
+            print "^Estos robots, de número inconmesurable, y al estar todos interconectados entre sí, han debido lograr
+             entretejer una conciencia colectiva.^";
+            gaiaRobotica.piensa( player );
+            "^";
+        } else {
+            print (string) descPlacaCodigo.dev_msg(), "^";
+        }
+    ]
+has female;
+
+
+! ================= OBJETOS ===============
+
+
+ObjetoEstatico OBJ_ARMARIO "armario" ALMACEN_DE_BASE
+with
+    name 'ARMARIO' 'pomo' 'panel' 'deslizante',
+    description "Se trata de un pequeño panel que se puede deslizar mediante un pequeño pomo."
+has openable container;
+
+ObjetoEstatico OBJ_ARMARIO_ROPERO "armario ropero" CAMAROTE_DEL_COMANDANTE
+with
+    name_m 'ARMARIO' 'ropero',
+    gender G_MASCULINO,
+    name_mp 'paneles' 'deslizantes',
+    description "Con dos paneles deslizantes, ocupa toda una pared de la habitación."
+has   ;
+
+ObjetoEstatico OBJ_ATRIL "atril" DESPACHO
+with
+    name 'ATRIL',
+    description "Se trata de un atril metálico, un tanto pequeño."
+has   ;
+
+ObjetoEstatico OBJ_AVISO "aviso" TUNEL_DEL_INVERNADERO
+with
+    name 'AVISO' 'cartel' 'letrero',
+    description "Señala hacia el oeste e indica: ~Invernadero~, hacia el norte: ~Túnel de comando~, y hacia el sur, que reza: ~Mantenimiento~."
+has   ;
+
+Objeto OBJ_BATERIA "batería" OBJ_ARMARIO
+with
+    lijada false,
+    name_f 'BATERIA',
+    name_mp 'bornes',
+    name_m 'borne',
+    gender G_FEMENINO,
+    description [;
+        print "Una batería estándar de Litio-Iones.";
+
+        if ( ~~( self.lijada ) ) {
+            print " Los bornes están un tanto oxidados.";
+        }
+
+        "^";
+    ],
+    before [;
+        Rub:
+            if ( obj_estropajo in player
+              || obj_estropajo in location
+              || obj_cuchillo  in player
+              || obj_cuchillo in location )
+            {
+                self.lijada = true;
+                "Rascas con fuerza hasta eliminar todos los rastros de óxido.";
+            }
+            else "Necesitas algo para eliminar el óxido, las manos solas no bastan.";
+        PutOn:
+            if ( second == obj_linterna )
+            {
+                if ( self.lijada ) {
+                    move self to obj_linterna;
+                    give obj_linterna light;
+                    "Insertas la batería en su compartimento y enciendes la linterna.^Ahora puedes explorar con confianza.";
+                }
+                else "Lo intentas, pero no funciona. Los bornes están sucios y algo oxidados.";
+            }
+     ],
+has female  ;
+
+ObjetoEstatico OBJ_BUTACAS "butacas" SALA_DE_REUNIONES
+with
+    name_fp 'BUTACAS' 'sillas',
+    name_f 'butaca' 'silla',
+    name_m 'sillon',
+    name_mp 'sillones',
+    gender G_FEMENINO + G_PLURAL,
+    description "Como siempre, hechas de resina plástica, con tela beige en su parte delantera."
+has female pluralname ;
+
+ObjetoEstatico OBJ_CARTEL "cartel" PASILLO_DE_VIVIENDA
+with
+    name 'AVISO' 'cartel' 'letrero',
+    description "El cartel indica: ~Pasillo de vivienda~."
+has   ;
+
+ObjetoEstatico OBJ_CATRE "catre" CAMAROTE_DEL_COMANDANTE
+with
+    name_m 'CATRE',
+    name_f 'cama',
+    gender G_MASCULINO,
+    description "Resulta estar empotrado contra otra de las paredes."
+has   ;
+
+ObjetoEstatico OBJ_MESILLA "mesilla" CAMAROTE_DEL_COMANDANTE
+with
+    name 'mesilla',
+    description "Resulta estar empotrada, con la misma cama, a una de las paredes."
+has  female ;
+
+ObjetoEstatico OBJ_ENCERADO "pizarra" SALA_DE_REUNIONES
+with
+    name_m 'ENCERADO',
+    name_f 'pizarra',
+    gender G_FEMENINO,
+    description "Se trata de una pizarra clásica, lo que quizás rompe un poco con el aire moderno circundante. No encuentras tizas para utilizarla."
+has  female ;
+
+ObjetoEstatico OBJ_ESCRITORIO "escritorio" CAMAROTE_DEL_COMANDANTE
+with
+    name 'ESCRITORIO',
+    description "Es un gran escritorio, hecha de la misma resina blanca que el resto de muebles. Al contrario que otras mesas, ésta parece muy sólida."
+has   ;
+
+ObjetoEstatico OBJ_ESCRITORIOS "escritorios" DESPACHO
+with
+    name_mp 'ESCRITORIOS',
+    name_m 'escritorio',
+    gender G_MASCULINO + G_PLURAL,
+    description "Son escritorios de una pieza, de resina plástica."
+has  pluralname ;
+
+ObjetoEstatico OBJ_ESTANTERIA "estantería" ALMACEN
+with
+    name_f 'ESTANTERIA',
+    name_mp 'estantes',
+    name_m 'estante',
+    gender G_FEMENINO,
+    description "No tiene demasiado de especial. Son de color blanco, el mismo que las paredes. Probablemente sean del mismo material."
+has female  ;
+
+ObjetoEstatico OBJ_FOGONES "fogones" COCINA_DE_BASE
+with
+    name_mp 'FOGONES',
+    name_m 'fogon',
+    gender G_PLURAL + G_MASCULINO,
+    description "Sobre el mueble. No parecen haber sido utilizados nunca."
+has  pluralname ;
+
+ObjetoEstatico OBJ_HORNO "horno" COCINA_DE_BASE
+with
+    name 'HORNO',
+    description "Empotrado dentro del gran mueble, exteriormente parece nuevo."
+has container openable  ;
+
+ObjetoEstatico OBJ_LETRERO "letrero" TUNEL_DE_COMANDO
+with
+    name 'AVISO' 'cartel' 'letrero',
+    description "Reza: ~Túnel de comando~."
+has   ;
+
+Objeto OBJ_LINTERNA "linterna" ALMACEN_DE_BASE
+with
+    name 'LINTERNA' 'compartimento',
+    description [;
+        print "De plástico negro, con pantalla de cristal. Tiene un pequeño compartimento para una batería.^";
+        if ( obj_bateria in self )
+                "La linterna está iluminando.";
+        else    "No tiene pilas, así que no funcionará.";
+    ],
+    before [;
+        SwitchOn:
+            if ( obj_bateria in self )
+                    "¡Ya está encendida!";
+            else    "No tiene batería, nunca encenderá.";
+        SwitchOff:
+            if ( obj_bateria in self )
+                    "No es necesario. Las baterías duran mucho tiempo.";
+            else    "No tiene batería. ¡Ya está apagada!.";
+    ],
+has female  ;
+
+ObjetoEstatico OBJ_LITERAS "literas" DORMITORIOS
+with
+    name_fp 'LITERAS' 'camas',
+    name_f 'litera' 'cama',
+    name_m 'catre',
+    name_mp 'catres',
+    gender G_FEMENINO + G_PLURAL,
+    description "Pequeñas camas apiladas en hasta tres alturas."
+has female pluralname ;
+
+Objeto OBJ_LLAVE_INGLESA "llave inglesa" ALMACEN_DE_BASE
+with
+    name 'LLAVE' 'inglesa',
+    description "Pues sí, una llave inglesa."
+has   ;
+
+ObjetoEstatico OBJ_MANGUERAS "mangueras" INVERNADERO
+with
+    name_fp 'MANGUERAS',
+    name_f 'manguera',
+    gender G_FEMENINO + G_PLURAL,
+    description "Supones que transportan agua para el alimento de las plantas."
+has female pluralname ;
+
+PensamientoFugaz aquiViveAlguien
+with
+    ideaFugaz
+        "Si esto está cuidado, aquí tiene que estar viviendo alguien. ¿Pero, quién?"
+;
+
+ObjetoEstatico OBJ_PLANTAS "plantas" INVERNADERO
+with
+    name_fp 'plantas',
+    name_f 'planta',
+    gender G_FEMENINO + G_PLURAL,
+    description [;
+        aquiViveAlguien.piensa( player );
+        "Alineadas a ambos lados, se ven excepcionalmente cuidadas y lustrosas.";
+    ],
+has female pluralname ;
+
+Objeto OBJ_MARTILLO "martillo" ALMACEN_DE_BASE
+with
+    name 'MARTILLO',
+    description "Es un martillo sin uñas."
+has   ;
+
+ObjetoEstatico OBJ_MENAJE "menaje" COCINA_DE_BASE
+with
+    name_m 'MENAJE' 'plato',
+    name_fp 'ollas',
+    name_f 'olla',
+    name_mp 'platos',
+    gender G_MASCULINO,
+    description "Pues sí, hay menaje de todo tipo."
+has   ;
+
+ObjetoEstatico OBJ_MESA_CENTRAL "mesa central" SALA_DE_REUNIONES
+with
+    name 'MESA',
+    description "Una gran mesa de resina plástica, parece muy resistente."
+has female  ;
+
+ObjetoEstatico OBJ_MESAS "mesas" SALON
+with
+    name_fp 'MESAS',
+    name_f 'mesa',
+    gender G_FEMENINO + G_PLURAL,
+    description "Demasiado frágiles, parecen romperse al contacto de los dedos."
+has female pluralname ;
+
+ObjetoEstatico OBJ_MESILLAS "mesillas" DORMITORIOS
+with
+    name_fp 'MESILLAS',
+    name_f 'mesilla',
+    gender G_FEMENINO + G_PLURAL,
+    description "Mesas donde dejar pequeños objetos, sin ningún valor en particular."
+has female pluralname ;
+
+ObjetoEstatico OBJ_MUEBLE "mueble" COCINA_DE_BASE
+with
+    name 'MUEBLE',
+    description "El mueble de cocina aloja los fogones y el horno. También puedes ver un cajón."
+;
+
+ObjetoEstatico OBJ_CAJON_MUEBLE "cajón del mueble de la cocina"  COCINA_DE_BASE
+with
+    name 'cajon',
+    description "Pues sí, un cajón.",
+has container openable;
+
+Objeto OBJ_ESTROPAJO "estropajo" OBJ_CAJON_MUEBLE
+with
+    name 'estropajo',
+    description "Un estropajo, para rascar la porquería de los platos.",
+;
+
+Objeto OBJ_TENEDOR "tenedor" OBJ_CAJON_MUEBLE
+with
+    name 'tenedor',
+    description "Un tenedor. Recuerdas vagamente que se usaba para comer, cuando
+                 la comida no venía como pasta.",
+;
+
+Objeto OBJ_CUCHARA "cuchara" OBJ_CAJON_MUEBLE
+with
+    name 'cuchara',
+    description "Una cuchara. Recuerdas vagamente que se usaba para comer, cuando
+                 la comida no venía como pasta.",
+has female;
+
+Objeto OBJ_CUCHILLO "cuchillo" OBJ_CAJON_MUEBLE
+with
+    name 'cuchillo',
+    description "Un cuchillo. Recuerdas vagamente que se usaba para comer, cuando
+                 la comida no venía como pasta.",
+;
+
+Objeto OBJ_PALANCA "palanca" ALMACEN_DE_BASE
+with
+    name 'PALANCA',
+    description "De acero inoxidable."
+has female  ;
+
+ObjetoEstatico OBJ_PLACA "placa" CAMAROTE_DEL_COMANDANTE
+with
+    name 'PLACA' 'cartel' 'letrero',
+    description "Se puede leer: ~Comandante~ en ella."
+has female  ;
+
+ObjetoEstatico OBJ_SILLONES "sillones" SALON
+with
+    name_mp 'SILLONES',
+    name_fp 'butacas' 'sillas',
+    name_m 'sillon',
+    name_f 'butaca' 'silla',
+    gender G_MASCULINO + G_PLURAL,
+    description "Una fina capa de polvo lo cubre todo."
+has  pluralname ;
+
+ObjetoEstatico OBJ_VENTANA "ventana" CAMAROTE_DEL_COMANDANTE
+with
+    name 'VENTANA',
+    description "No es posible abrirla, pero proporciona luz a toda la estancia. No se aprecia nada interesante, más que desierto, al mirar por ella."
+has female  ;

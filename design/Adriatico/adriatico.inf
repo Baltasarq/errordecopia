@@ -1,0 +1,125 @@
+! generado por INFORMATE@txtMap, v0.2/ v0.41 20070517
+! Mon Aug 20 20:50:33 2007
+
+
+
+
+Constant ADMITIR_COMANDO_SALIDAS;
+
+Include "EParser";
+Include "Acciones";
+Include "Gramatica";
+
+object limbo "Limbo"
+	with descripcion "limbo"
+;
+
+class Localidad
+has luz;
+
+
+
+class Objeto;
+
+class ObjetoEstatico
+class Objeto
+has escenario;
+
+
+[ inicializar;
+	localizacion = PUESTO_DE_COMANDO;
+];
+
+! ================= LOCALIDADES ===============
+
+
+Localidad CAMAROTE_DE_BABOR "Camarote de babor"
+with
+	descripcion "^Una cama plegada contra el casco de la nave, y un panel para efectos personales son lo poco que ofrece este espacio.",
+	al_e PASILLO_DE_SERVICIO,
+
+;
+
+Localidad CAMAROTE_DE_ESTRIBOR "Camarote de estribor"
+with
+	descripcion "^Una cama plegada contra el casco de la nave, y un cajón para efectos personales son lo poco que ofrece este espacio.",
+	al_o PASILLO_DE_SERVICIO,
+
+;
+
+Localidad CAMARA_DE_DESCOMPRESION "Cámara de descompresión"
+with
+	descripcion "^La última estancia a popa de la nave, la cámara se cierra de manera estanca, para que sea posible realizar viajes al exterior sin perder la atmósfera de la nave.",
+	al_n ZONA_DE_MANTENIMIENTO,
+
+;
+
+Localidad PASILLO_DE_SERVICIO "Pasillo de servicio"
+with
+	descripcion "^El reducido pasillo permite el acceso, a babor y estribor, de sendos camarotes.",
+	al_n PUESTO_DE_COMANDO,
+	al_s ZONA_DE_MANTENIMIENTO,
+	al_e CAMAROTE_DE_ESTRIBOR,
+	al_o CAMAROTE_DE_BABOR,
+
+;
+
+Localidad PUESTO_DE_COMANDO "Puesto de Comando"
+with
+	descripcion "^La cápsula Adriático tiene un reducido puesto de mando, de manera que la pequeña consola ante ti maneja todas las posibilidades de la nave, que son ciertamente reducidas. El pequeño ventanal te permite una cierta visión de lo que tienes delante, si bien no se espera que la nave haga ninguna navegación que lo precise, al ser una çápsula de salvamento.",
+	al_s PASILLO_DE_SERVICIO,
+
+;
+
+Localidad ZONA_DE_MANTENIMIENTO "Zona de mantenimiento"
+with
+	descripcion "^Un espacio bastante amplio funciona como zona de carga, alojando también el panel de herramientas, y el acceso a la maquinaria de la nave, tanto de los sistemas vitales de la nave, como del motor.",
+	al_n PASILLO_DE_SERVICIO,
+	al_s CAMARA_DE_DESCOMPRESION,
+
+;
+
+! ================= OBJETOS ===============
+
+
+ObjetoEstatico OBJ_CAJON "cajón" CAMAROTE_DE_ESTRIBOR
+with
+	nombre 'CAJON',
+	descripcion "El cajón no es más una caja de plástico deslizante, escamoteable en el casco."
+has   ;
+
+ObjetoEstatico OBJ_CIRCUITO_NEUMATICO "circuito neumático" ZONA_DE_MANTENIMIENTO
+with
+	nombre 'CIRCUITO',
+	descripcion "El circuito neumático mantiene la presión del aire comprimido de las puertas, de manera que éstas se abran y se cierren."
+has   ;
+
+ObjetoEstatico OBJ_MAQUINARIA "maquinaria" ZONA_DE_MANTENIMIENTO
+with
+	nombre 'MAQUINARIA',
+	descripcion "Puedes ver el motor antigravitacional, el sistema de mantenimiento vital y el circuito neumático."
+has femenino  ;
+
+ObjetoEstatico OBJ_MOTOR_ANTIGRAVITACIONAL "motor antigravitacional" ZONA_DE_MANTENIMIENTO
+with
+	nombre 'MOTOR',
+	descripcion "Se trata del motor que impide que la nave caiga dentro de la atmósfera del planeta, como una piedra."
+has   ;
+
+ObjetoEstatico OBJ_PANEL "panel" CAMAROTE_DE_BABOR
+with
+	nombre 'PANEL',
+	descripcion "El panel es una lámina de plástico deslizante, que oculta unos estantes."
+has   ;
+
+ObjetoEstatico OBJ_PANEL_DE_HERRAMIENTAS "panel de herramientas" ZONA_DE_MANTENIMIENTO
+with
+	nombre 'PANEL',
+	descripcion "Se trata de un panel donde se alojan las herramientas necesarias para una reparación de emergencia."
+has   ;
+
+ObjetoEstatico OBJ_SISTEMA_DE_MANTENIMIENTO_VITAL "sistema de mantenimiento vital" ZONA_DE_MANTENIMIENTO
+with
+	nombre 'SISTEMA',
+	descripcion "El sistema de mantenimiento se encarga de mantener el oxígeno de la nave en buen estado, así como de la calefacción y otros factores."
+has femenino  ;

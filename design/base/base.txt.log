@@ -1,0 +1,189 @@
+      0 txtMap v0.41 20070517
+      0 entrada: base.txt
+      0 ========================
+      2 nueva localidad 'Almacén'
+      4 tomando descripción
+      6 tomando desc. objeto
+      6 Aceptando descripción de objeto 
+      6 Objeto estantería
+      9 tomando desc. objeto
+      9 Aceptando descripción de objeto 
+      9 Objeto armario
+     12 tomando objeto
+     12 Creando/modificando objeto (coger).
+     12 Objeto palanca
+     15 tomando desc. objeto
+     15 Aceptando descripción de objeto 
+     15 Objeto palanca
+     18 tomando objeto
+     18 Creando/modificando objeto (coger).
+     18 Objeto llave inglesa
+     21 tomando desc. objeto
+     21 Aceptando descripción de objeto 
+     21 Objeto llave inglesa
+     24 tomando objeto
+     24 Creando/modificando objeto (coger).
+     24 Objeto destornillador
+     27 tomando desc. objeto
+     27 Aceptando descripción de objeto 
+     27 Objeto destornillador
+     30 tomando objeto
+     30 Creando/modificando objeto (coger).
+     30 Objeto linterna
+     33 tomando desc. objeto
+     33 Aceptando descripción de objeto 
+     33 Objeto linterna
+     36 tomando objeto
+     36 Creando/modificando objeto (coger).
+     36 Objeto martillo
+     39 tomando desc. objeto
+     39 Aceptando descripción de objeto 
+     39 Objeto martillo
+     42 tomando objeto
+     42 Creando/modificando objeto (coger).
+     42 Objeto batería
+     45 tomando desc. objeto
+     45 Aceptando descripción de objeto 
+     45 Objeto batería
+     48 Almacén por ESTE a Encrucijada
+     50 FINLOC encontrado
+     52 nueva localidad 'Codo en el túnel'
+     54 tomando descripción
+     56 preparando primer movimiento
+     56 Codo en el túnel por OESTE a Túnel de servicio
+     57 Codo en el túnel por SUR a Túnel de comando
+     58 FINLOC encontrado
+     60 nueva localidad 'Túnel de servicio'
+     62 tomando descripción
+     64 preparando primer movimiento
+     64 Túnel de servicio por ESTE a Codo en el túnel
+     67 nueva localidad 'Encrucijada'
+     67 'Túnel de servicio' por OESTE a 'Encrucijada'
+     67 'Encrucijada' por [inversa]  ESTE a 'Túnel de servicio'
+     69 tomando descripción
+     71 preparando primer movimiento
+     71 Encrucijada por OESTE a Almacén
+     74 nueva localidad 'Pasillo de vivienda'
+     74 'Encrucijada' por SUR a 'Pasillo de vivienda'
+     74 'Pasillo de vivienda' por [inversa]  NORTE a 'Encrucijada'
+     76 tomando descripción
+     78 tomando desc. objeto
+     78 Aceptando descripción de objeto 
+     78 Objeto cartel
+     81 Pasillo de vivienda por ESTE a Cocina
+     82 Pasillo de vivienda por OESTE a Dormitorios
+     85 nueva localidad 'Fin del pasillo de vivienda'
+     85 'Pasillo de vivienda' por SUR a 'Fin del pasillo de vivienda'
+     85 'Fin del pasillo de vivienda' por [inversa]  NORTE a 'Pasillo de vivienda'
+     87 tomando descripción
+     89 preparando primer movimiento
+     89 Fin del pasillo de vivienda por ESTE a Salón
+     92 nueva localidad 'Despacho'
+     92 'Fin del pasillo de vivienda' por OESTE a 'Despacho'
+     92 'Despacho' por [inversa]  ESTE a 'Fin del pasillo de vivienda'
+     94 tomando descripción
+     96 tomando desc. objeto
+     96 Aceptando descripción de objeto 
+     96 Objeto escritorios
+     99 tomando desc. objeto
+     99 Aceptando descripción de objeto 
+     99 Objeto atril
+    103 FINLOC encontrado
+    105 nueva localidad 'Salón'
+    107 tomando descripción
+    109 tomando desc. objeto
+    109 Aceptando descripción de objeto 
+    109 Objeto sillones
+    112 tomando desc. objeto
+    112 Aceptando descripción de objeto 
+    112 Objeto mesas
+    115 Salón por OESTE a Fin del pasillo de vivienda
+    117 FINLOC encontrado
+    119 nueva localidad 'Cocina'
+    121 tomando descripción
+    123 tomando desc. objeto
+    123 Aceptando descripción de objeto 
+    123 Objeto menaje
+    126 tomando desc. objeto
+    126 Aceptando descripción de objeto 
+    126 Objeto fogones
+    129 tomando desc. objeto
+    129 Aceptando descripción de objeto 
+    129 Objeto mueble
+    132 tomando desc. objeto
+    132 Aceptando descripción de objeto 
+    132 Objeto horno
+    135 Cocina por OESTE a Pasillo de vivienda
+    137 FINLOC encontrado
+    139 nueva localidad 'Dormitorios'
+    141 tomando descripción
+    143 tomando desc. objeto
+    143 Aceptando descripción de objeto 
+    143 Objeto literas
+    146 tomando desc. objeto
+    146 Aceptando descripción de objeto 
+    146 Objeto mesillas
+    149 Dormitorios por ESTE a Pasillo de vivienda
+    151 FINLOC encontrado
+    153 nueva localidad 'Camarote del comandante'
+    155 tomando descripción
+    157 tomando desc. objeto
+    157 Aceptando descripción de objeto 
+    157 Objeto placa
+    160 tomando desc. objeto
+    160 Aceptando descripción de objeto 
+    160 Objeto escritorio
+    163 tomando desc. objeto
+    163 Aceptando descripción de objeto 
+    163 Objeto armario ropero
+    166 tomando desc. objeto
+    166 Aceptando descripción de objeto 
+    166 Objeto catre
+    169 tomando desc. objeto
+    169 Aceptando descripción de objeto 
+    169 Objeto ventana
+    172 Camarote del comandante por OESTE a Túnel de comando
+    174 FINLOC encontrado
+    176 nueva localidad 'Sala de reuniones'
+    178 tomando descripción
+    180 tomando desc. objeto
+    180 Aceptando descripción de objeto 
+    180 Objeto mesa central
+    183 tomando desc. objeto
+    183 Aceptando descripción de objeto 
+    183 Objeto butacas
+    186 tomando desc. objeto
+    186 Aceptando descripción de objeto 
+    186 Objeto encerado
+    189 Sala de reuniones por ESTE a Túnel de comando
+    191 FINLOC encontrado
+    194 nueva localidad 'Túnel de comando'
+    196 tomando descripción
+    198 tomando desc. objeto
+    198 Aceptando descripción de objeto 
+    198 Objeto letrero
+    201 Túnel de comando por NORTE a Codo en el túnel
+    202 Túnel de comando por ESTE a Camarote del comandante
+    203 Túnel de comando por OESTE a Sala de reuniones
+    206 nueva localidad 'Túnel del Invernadero'
+    206 'Túnel de comando' por SUR a 'Túnel del Invernadero'
+    206 'Túnel del Invernadero' por [inversa]  NORTE a 'Túnel de comando'
+    208 tomando descripción
+    210 tomando desc. objeto
+    210 Aceptando descripción de objeto 
+    210 Objeto aviso
+    213 Túnel del Invernadero por ESTE a Invernadero
+    217 nueva localidad 'Túnel de mantenimiento'
+    217 'Túnel del Invernadero' por SUR a 'Túnel de mantenimiento'
+    217 'Túnel de mantenimiento' por [inversa]  NORTE a 'Túnel del Invernadero'
+    219 tomando descripción
+    221 FINLOC encontrado
+    223 nueva localidad 'Invernadero'
+    225 tomando descripción
+    227 preparando primer movimiento
+    227 Invernadero por OESTE a Túnel del Invernadero
+    229 tomando desc. objeto
+    229 Aceptando descripción de objeto 
+    229 Objeto mangueras
+    232 FINLOC encontrado
+    238 Fín del proceso de base.txt ...

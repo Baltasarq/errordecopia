@@ -1,0 +1,138 @@
+Puente de Mando
+
+El centro de mando de la Pacífico se extiende a estribor y babor desde este punto, la consola principal de la nave. La consola, que abarca la práctica totalidad de los controles visibles, dispone de un teclado y una pantalla. Un poco más abajo de la altura aproximada de los ojos, comienzan los ventanales que permiten una visión amplia de la panza del carguero (la parte despresurizada que contiene la carga) y el vasto espacio por delante del mismo. El sillón del comandante se encuentra justo delante de la consola.
+
+> este a Comando del Piloto
+> oeste a Comando del Navegante
+> s
+
+Sala de comunicaciones
+
+Innumerables interruptores, luces, y aparatos de procesamiento de señal llenan la sala, que se reparte a ambos lados del pasillo central. Al final del pasillo, se encuentra el ascensor que comunica el Puente de Mando con el resto de la nave.
+
+> s
+
+Ascensor
+
+El ascensor es un tubo que recorre, en vertical, los tres niveles de la nave. La zona de residencia y control, en la que te encuentras, no es tan grande, recuerdas, comparada con la zona de carga, que es totalmente independiente.
+
+.finloc
+
+Comando del Piloto
+
+El extremo de estribor del puente de mando, con el sillón de comando y la consola del piloto. Los ventanales permiten la vista de la proa y del costado de estribor de la nave.
+
+> oeste a Puente de Mando
+
+.finloc
+
+Comando del Navegante
+
+El extremo de babor del puente de mando, con el sillón de comando y la consola del piloto. Los ventanales permiten la vista de la proa y del costado de babor de la nave.
+
+> este a Puente de Mando
+.finloc
+
+Cápsula Adriático
+
+El pequeño centro de mando acristalado de la cápsula es pequeño, como el resto de la misma. Los mandos se sitúan delante de tí, mientras a tu espalda se sitúa la escotilla de conexión con la nave.
+
+> e a Cámara de acceso a cápsulas
+
+.finloc
+
+Cápsula Trirreno
+
+El pequeño centro de mando acristalado de la cápsula es pequeño, como el resto de la misma. Los mandos se sitúan delante de tí, mientras a tu espalda se sitúa la escotilla de conexión con la nave.
+
+> o
+
+Cámara de acceso a cápsulas
+
+Una estrecha cámara con varias vainas, en las que se encuentran algunos trajes espaciales, da paso a dos salidas: una a estribor, y otra a babor.
+
+> o a Cápsula Adriático
+> s
+
+Pasillo de servicio nivel 1
+
+El pasillo de servicio es un largo tubo atravesado por todo tipo de conducciones, que corre de proa a popa. Una trampilla permite el acceso a un túnel de mantenimiento.
+
+> ex conducciones
+Se trata de varios tubos y cables, que están fuertemente recogidos por abrazaderas.
+
+> ex tubos
+Tubos de varios colores y anchos.
+
+> ex abrazaderas
+Sujetan los tubos.
+
+> s
+> abajo
+
+Túnel de mantenimiento
+
+Un angosto túnel blanco, que te obliga a mantenerte en cuclillas, se abre ante ti. Una salida se abre en la parte superior del extremo de proa, mientras hacia popa se aprecia otra escotilla.
+
+> s
+
+Sala de Máquinas
+
+La sala de máquinas da servicio a la maquinaria de los motores interestelares. Hacia proa se abre una pequeña escotilla.
+
+> ex maquinaria
+Los motores están, básicamente, aquí, siendo accesibles todos los aparatos que intervienen en la transformación de la energía de las células en empuje para la mano. Siendo las células y pesadas cajas que deben introducirse en la maquinaria para alimentarla, la estampa se asemeja a aquellas locomotoras de leña del Siglo XX.
+
+> ex motores
+En realidad, no son visibles desde aquí, tan solo la maquinaria que los gobierna.
+
+> ex célula
+Una célula de energía.
+
+> coge la célula
+
+.finloc
+
+Pasillo de Servicio del Nivel 0
+
+El pasillo de servicio es un largo y estrecho tubo, bastante más estrecho que los de los niveles superiores, que corre de proa a popa.
+
+> e a Cocina
+> o a Sala de descanso
+
+> n
+
+Almacén
+
+El almacén contiene algunos elementos útiles para el gobierno y mantenimiento de la nave, como herramientas y comida.
+
+> ex herramientas
+Herramientas de todos los tamaños y colores. Menos mal que hay un mecánico entre la tripulación, nunca se te han dado bien los trabajos en los que debes mancharte de aceite las manos.
+
+> ex comida
+Paquetes y paquetes de comida deshidratada. Nada útil hasta que se mete en la máquina de la cocina.
+
+.finloc
+
+Cocina
+
+La cocina, con su principal componente: la máquina rehidratadora.
+
+> ex maquina rehidratadora
+Se trata de una máquina en la que se ubica un paquete con la comida deseada por un lado, y una pasta de colores variados aparece en un plato por el otro.
+
+> o a Pasillo de Servicio del Nivel 0
+
+.finloc
+
+Sala de descanso
+La sala de reuniones de la tripulación, con una mesa central y un banco corrido todo a su alrededor.
+
+> o a Pasillo de Servicio del Nivel 0
+> ex mesa
+Se trata de una mesa circular, de inmaculado color blanco.
+
+> ex banco
+Un banco acolchado en beige, que circunda completamente la mesa.
+
+.finloc
