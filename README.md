@@ -44,7 +44,7 @@ $ make
 
 # How to play
 ## Play the z5 (text-only) version
-https://iplayif.com/?story=https%3A%2F%2Fifarchive.org%2Fif-archive%2Fgames%2Fzcode%2Fspanish%2Ferrordecopia.z5
+[Jugar Error de Copia (versión texto), en iplayif.com](https://iplayif.com/?story=https%3A%2F%2Fifarchive.org%2Fif-archive%2Fgames%2Fzcode%2Fspanish%2Ferrordecopia.z5).
 
 ## Play the version with graphics
-https://iplayif.com/?story=https%3A%2F%2Fifarchive.org%2Fif-archive%2Fgames%2Fcompetitions-spanish%2Fficomp%2Ferrordecopia.blb
+[Jugar Error de Copia (versión texto), en iplayif.com](https://iplayif.com/?story=https%3A%2F%2Fifarchive.org%2Fif-archive%2Fgames%2Fcompetitions-spanish%2Fficomp%2Ferrordecopia.blb).
