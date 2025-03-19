@@ -35,6 +35,12 @@ You need:
 - The [Inform 6 compiler](https://github.com/DavidKinder/Inform6).
 - The [Blorb packager](http://ifarchive.org/if-archive/programming/blorb/).
 
+Once these tools are in the PATH, then:
+
+```bsh
+$ cd src
+make
+```
 
 # How to play
 ## Play the z5 (text-only) version
