@@ -39,7 +39,7 @@ Once these tools are in the PATH, then:
 
 ```bsh
 $ cd src
-make
+$ make
 ```
 
 # How to play
