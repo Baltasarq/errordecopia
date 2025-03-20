@@ -1,7 +1,7 @@
 # Error de copia
 ## Introduction
 
-*Avdenture written as an entry for the 2007*
+*Avdenture written as an entry for the 2007 FIComp.*
 
 *Language: Spanish.*
 
@@ -43,8 +43,15 @@ $ make
 ```
 
 # How to play
-## Play the z5 (text-only) version
+
+## Offline
+1. Download the [Zag interpreter](https://github.com/Banbury/zag/releases/latest) (for some reason, modern interpreters like **Gargoyle** do not support this game).
+2. Download the game (version with graphics), from [Error de Copia's releases section](https://github.com/Baltasarq/errordecopia/releases/latest).
+3. Double-click on zag.jar.
+4. Trigger the *file >> open file*, and choose the game file, ending in *gblorb*.
+
+## Play the z5 (text-only) version online
 [Play Error de Copia (text version), in iplayif.com](https://iplayif.com/?story=https%3A%2F%2Fifarchive.org%2Fif-archive%2Fgames%2Fzcode%2Fspanish%2Ferrordecopia.z5).
 
-## Play the version with graphics
+## Play the version with graphics online
 [Play Error de Copia (version with images), in iplayif.com](https://iplayif.com/?story=https%3A%2F%2Fifarchive.org%2Fif-archive%2Fgames%2Fcompetitions-spanish%2Fficomp%2Ferrordecopia.blb).
